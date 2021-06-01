@@ -49,8 +49,8 @@ public class UserController {
 
     @GetMapping("/{userId}/followed/list")
     public ResponseEntity<UserResponse> getAllSellersThatAnUserFollow(@PathVariable Integer userId) {
-
-        return ResponseEntity.ok().body(null);
+        var response = this.userUseCase.getAllSellersThatAnUserFollow(userId);
+        return ResponseEntity.ok().body(response);
     }
 
 }

@@ -8,4 +8,5 @@ public interface UserUseCase {
     public void followNewSeller(UserRequest request);
     public UserResponse getQuantityUsersFollowSeller(Integer userId);
     public UserResponse getAllUsersFollowSeller(Integer userId);
+    public UserResponse getAllSellersThatAnUserFollow(Integer userId);
 }

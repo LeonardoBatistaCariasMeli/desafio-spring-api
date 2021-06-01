@@ -8,4 +8,5 @@ public interface UserGateway {
     public void followNewSeller(UserRequest request);
     public User getQuantityUsersFollowSeller(Integer userId);
     public User getAllUsersFollowSeller(Integer userId);
+    public User getAllSellersThatAnUserFollow(Integer userId);
 }

@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public interface UserResponseMapper {
 
     static UserResponse fromUser(User user) {
-        var following = assemblesFollowingOrFollowersListOf(user.getFollowing());
+        var following = assemblesFollowingOrFollowersListOf(user.getFollowed());
         var followers = assemblesFollowingOrFollowersListOf(user.getFollowers());
         var quantityFollowers = user.getQuantityFollowers() == 0 ? null : user.getQuantityFollowers();
         return new UserResponse(user.getUserId(), user.getName(), user.getTypeUser(), following, followers, quantityFollowers);

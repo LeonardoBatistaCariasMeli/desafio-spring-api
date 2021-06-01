@@ -79,4 +79,11 @@ public class UserDataProvider implements UserGateway {
 
         return UserMapper.fromUserData(user);
     }
+
+    @Override
+    public User getAllSellersThatAnUserFollow(Integer userId) {
+        var user = this.findUserById(userId);
+
+        return UserMapper.fromUserData(user);
+    }
 }
