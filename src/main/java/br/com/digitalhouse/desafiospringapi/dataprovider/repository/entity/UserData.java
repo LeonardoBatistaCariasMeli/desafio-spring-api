@@ -17,20 +17,28 @@ public class UserData {
     private Integer typeUser;
 
     @ManyToMany
-    @JoinTable(name = "SELLER",
+    @JoinTable(name = "USER_FOLLOWED",
             joinColumns = @JoinColumn(name = "userId"),
-            inverseJoinColumns = @JoinColumn(name = "sellerId")
+            inverseJoinColumns = @JoinColumn(name = "userFollowId")
     )
-    private List<UserData> sellers = new ArrayList<>();
+    private List<UserData> followed = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "USER_FOLLOWED",
+            joinColumns = @JoinColumn(name = "userFollowId"),
+            inverseJoinColumns = @JoinColumn(name = "userId")
+    )
+    private List<UserData> followers = new ArrayList<>();
 
     public UserData() {
     }
 
-    public UserData(Integer userId, String name, TypeUser typeUser, List<UserData> sellers) {
+    public UserData(Integer userId, String name, TypeUser typeUser, List<UserData> followed, List<UserData> followers) {
         this.userId = userId;
         this.name = name;
-        this.typeUser = (typeUser == null) ? 1 : typeUser.getCode();
-        this.sellers = sellers;
+        this.typeUser = (typeUser == null) ? null : typeUser.getCode();
+        this.followed = followed;
+        this.followers = followers;
     }
 
     public Integer getUserId() {
@@ -57,15 +65,24 @@ public class UserData {
         this.typeUser = typeUser;
     }
 
-    public List<UserData> getSellers() {
-        return sellers;
+    public List<UserData> getFollowed() {
+        return followed;
     }
 
-    public void setSellers(List<UserData> sellers) {
-        this.sellers = sellers;
+    public void setFollowed(List<UserData> followed) {
+        this.followed = followed;
     }
 
-    public void addNewSeller(UserData seller) {
-        this.sellers.add(seller);
+    public List<UserData> getFollowers() {
+        return followers;
     }
+
+    public void setFollowers(List<UserData> followers) {
+        this.followers = followers;
+    }
+
+    public void addNewFollow(UserData data) {
+        this.followed.add(data);
+    }
+
 }

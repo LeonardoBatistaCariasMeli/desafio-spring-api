@@ -3,11 +3,9 @@ package br.com.digitalhouse.desafiospringapi.entrypoint.controller;
 import br.com.digitalhouse.desafiospringapi.usecase.UserUseCase;
 import br.com.digitalhouse.desafiospringapi.usecase.model.request.UserRequest;
 import br.com.digitalhouse.desafiospringapi.usecase.model.response.UserResponse;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 
@@ -38,19 +36,19 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/followers/count")
-    public ResponseEntity<?> getQuantityUsersFollowSeller(@PathVariable Integer userId) {
+    public ResponseEntity<UserResponse> getQuantityUsersFollowSeller(@PathVariable Integer userId) {
         var response = this.userUseCase.getQuantityUsersFollowSeller(userId);
         return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/{userId}/followers/list")
-    public ResponseEntity<List<?>> getAllUsersFollowSellers(@PathVariable Integer userId) {
-
-        return ResponseEntity.ok().body(null);
+    public ResponseEntity<UserResponse> getAllUsersFollowSeller(@PathVariable Integer userId) {
+        var response = this.userUseCase.getAllUsersFollowSeller(userId);
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/{userId}/followed/list")
-    public ResponseEntity<List<?>> getAllSellersThatAnUserFollow(@PathVariable Integer userId) {
+    public ResponseEntity<UserResponse> getAllSellersThatAnUserFollow(@PathVariable Integer userId) {
 
         return ResponseEntity.ok().body(null);
     }

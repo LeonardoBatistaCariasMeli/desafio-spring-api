@@ -1,5 +1,7 @@
 package br.com.digitalhouse.desafiospringapi.usecase.model.request;
 
+import br.com.digitalhouse.desafiospringapi.exceptions.DataIntegrityException;
+
 import java.io.Serializable;
 
 public class UserRequest implements Serializable {
@@ -13,8 +15,14 @@ public class UserRequest implements Serializable {
     }
 
     public UserRequest(Integer userId, Integer userIdSeller) {
+        validateIds(userId, userIdSeller);
         this.userId = userId;
         this.userIdSeller = userIdSeller;
+    }
+
+    public void validateIds(Integer userId, Integer userIdSeller) {
+        if (userId == userIdSeller)
+            throw new DataIntegrityException("Both ids owned by same user");
     }
 
     public Integer getUserId() {

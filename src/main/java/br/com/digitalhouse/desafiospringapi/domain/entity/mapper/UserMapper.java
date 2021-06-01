@@ -10,20 +10,26 @@ import java.util.stream.Collectors;
 public interface UserMapper {
 
     static User fromUserData(UserData data) {
-        var sellers = assemblesSellersListOf(data.getSellers());
-        return new User(data.getUserId(), data.getName(),data.getTypeUser(), sellers, 0);
+        var following = assemblesFollowingOrFollowersListOf(data.getFollowed());
+        var followers =  assemblesFollowingOrFollowersListOf(data.getFollowers());
+        return new User(data.getUserId(), data.getName(),data.getTypeUser(), following, followers, 0);
     }
 
-    static List<User> assemblesSellersListOf(List<UserData> listData) {
-        return listData.stream().map(UserMapper::assembleSellerOf).collect(Collectors.toList());
+    static List<User> assemblesFollowingOrFollowersListOf(List<UserData> listData) {
+        if(listData.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return listData.stream().map(UserMapper::assemblesFollowingOrFollowersOf).collect(Collectors.toList());
     }
 
-    static User assembleSellerOf(UserData data) {
-        return new User(data.getUserId(), data.getName(), data.getTypeUser(), new ArrayList<>(), 0);
+    static User assemblesFollowingOrFollowersOf(UserData data) {
+        return new User(data.getUserId(), data.getName(), data.getTypeUser(), new ArrayList<>(), new ArrayList<>(), 0);
     }
 
     static User fromUserData(UserData data, Integer quantity) {
-        var sellers = assemblesSellersListOf(data.getSellers());
-        return new User(data.getUserId(), data.getName(), data.getTypeUser(), sellers, quantity);
+        var following = new ArrayList<User>();
+        var followers = new ArrayList<User>();
+
+        return new User(data.getUserId(), data.getName(), data.getTypeUser(), following, followers, quantity);
     }
 }

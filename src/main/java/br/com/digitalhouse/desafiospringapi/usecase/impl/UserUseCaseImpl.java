@@ -32,4 +32,10 @@ public class UserUseCaseImpl implements UserUseCase {
         var user = this.userGateway.getQuantityUsersFollowSeller(userId);
         return UserResponseMapper.fromUser(user);
     }
+
+    @Override
+    public UserResponse getAllUsersFollowSeller(Integer userId) {
+        var user = this.userGateway.getAllUsersFollowSeller(userId);
+        return UserResponseMapper.fromUser(user);
+    }
 }

@@ -37,32 +37,46 @@ public class UserDataProvider implements UserGateway {
 
     @Override
     public void followNewSeller(UserRequest request) {
-        if(this.userRepository.isUserFollowingSeller(request.getUserId(), request.getUserIdSeller()))
+        if (this.userRepository.isUserFollowingSeller(request.getUserId(), request.getUserIdSeller()))
             throw new DataIntegrityException("This seller is already being followed by you");
 
+        this.follow(request);
+    }
+
+    private void follow(UserRequest request) {
         var user = this.findUserById(request.getUserId());
-        var seller = this.findSellerById(request.getUserIdSeller());
-        user.addNewSeller(seller);
+        var seller = this.findSellerByUserId(request.getUserIdSeller());
+        this.isBothSellers(user.getTypeUser(), seller.getTypeUser());
+        user.addNewFollow(seller);
         this.userRepository.save(user);
     }
 
-    private UserData findSellerById(Integer sellerId) {
-        var seller = this.userRepository.findByUserIdAndTypeUser(sellerId, TypeUser.SELLER.getCode());
-        if (seller.isEmpty())
-            throw new ObjectNotFoundException("The seller not exists. Id: " + sellerId);
+    private UserData findSellerByUserId(Integer userId) {
+        var user = this.userRepository.findByUserIdAndTypeUser(userId, TypeUser.SELLER.getCode());
+        if (user.isEmpty())
+            throw new ObjectNotFoundException("The seller not exists. Id: " + userId);
+        if (!(user.get().getTypeUser() == TypeUser.SELLER.getCode()))
+            throw new DataIntegrityException("This user don't is a seller. Id: " + userId);
+        return user.get();
+    }
 
-        if(!(seller.get().getTypeUser() == TypeUser.SELLER.getCode())) {
-            throw new DataIntegrityException("This user don't is a seller. Id: " + sellerId);
-        }
-
-        return seller.get();
+    private void isBothSellers(Integer typeUserCode1, Integer typeUserCode2) {
+        if(typeUserCode1 == typeUserCode2)
+            throw new DataIntegrityException("Both users are sellers");
     }
 
     @Override
     public User getQuantityUsersFollowSeller(Integer userId) {
-        var seller = this.findSellerById(userId);
+        var seller = this.findSellerByUserId(userId);
         var followers = this.userRepository.getQuantityUsersFollowSeller(userId);
 
         return UserMapper.fromUserData(seller, followers);
+    }
+
+    @Override
+    public User getAllUsersFollowSeller(Integer userId) {
+        var user = this.findSellerByUserId(userId);
+
+        return UserMapper.fromUserData(user);
     }
 }

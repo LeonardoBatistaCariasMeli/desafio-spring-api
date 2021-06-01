@@ -15,17 +15,25 @@ public class UserResponse implements Serializable {
     private TypeUser typeuser;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<UserResponse> sellers = new ArrayList<>();
+    private List<UserResponse> following = new ArrayList<>();
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<UserResponse> followers = new ArrayList<>();
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer quantityFollowers;
 
-    public UserResponse(Integer userId, String name, TypeUser typeuser, List<UserResponse> sellers, Integer quantityFollowers) {
+    public UserResponse(Integer userId, String name, TypeUser typeuser, List<UserResponse> following, List<UserResponse> followers, Integer quantityFollowers) {
         this.userId = userId;
         this.name = name;
         this.typeuser = typeuser;
-        this.sellers = sellers;
+        this.following = following;
+        this.followers = followers;
         this.quantityFollowers = quantityFollowers;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public Integer getUserId() {
@@ -40,8 +48,12 @@ public class UserResponse implements Serializable {
         return typeuser;
     }
 
-    public List<UserResponse> getSellers() {
-        return sellers;
+    public List<UserResponse> getFollowing() {
+        return following;
+    }
+
+    public List<UserResponse> getFollowers() {
+        return followers;
     }
 
     public Integer getQuantityFollowers() {
