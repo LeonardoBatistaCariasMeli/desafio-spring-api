@@ -9,14 +9,16 @@ public class User {
 
     private Integer userId;
     private String name;
-    private TypeUser typeuser;
+    private TypeUser typeUser;
     private List<User> sellers = new ArrayList<>();
+    private Integer quantityFollowers;
 
-    public User(Integer userId, String name, Integer typeuser, List<User> sellers) {
+    public User(Integer userId, String name, Integer typeUser, List<User> sellers, Integer quantityFollowers) {
         this.userId = userId;
         this.name = name;
-        this.typeuser = TypeUser.toEnum(typeuser);
+        this.typeUser = TypeUser.toEnum(typeUser);
         this.sellers = sellers;
+        this.quantityFollowers = quantityFollowers;
     }
 
     public Integer getUserId() {
@@ -27,11 +29,15 @@ public class User {
         return name;
     }
 
-    public TypeUser getTypeuser() {
-        return typeuser;
+    public TypeUser getTypeUser() {
+        return typeUser;
     }
 
     public List<User> getSellers() {
         return sellers;
+    }
+
+    public Integer getQuantityFollowers() {
+        return quantityFollowers;
     }
 }

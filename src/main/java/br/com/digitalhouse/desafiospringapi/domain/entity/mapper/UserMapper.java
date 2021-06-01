@@ -11,7 +11,7 @@ public interface UserMapper {
 
     static User fromUserData(UserData data) {
         var sellers = assemblesSellersListOf(data.getSellers());
-        return new User(data.getUserId(), data.getName(),data.getTypeUser(), sellers);
+        return new User(data.getUserId(), data.getName(),data.getTypeUser(), sellers, 0);
     }
 
     static List<User> assemblesSellersListOf(List<UserData> listData) {
@@ -19,6 +19,11 @@ public interface UserMapper {
     }
 
     static User assembleSellerOf(UserData data) {
-        return new User(data.getUserId(), data.getName(), data.getTypeUser(), new ArrayList<>());
+        return new User(data.getUserId(), data.getName(), data.getTypeUser(), new ArrayList<>(), 0);
+    }
+
+    static User fromUserData(UserData data, Integer quantity) {
+        var sellers = assemblesSellersListOf(data.getSellers());
+        return new User(data.getUserId(), data.getName(), data.getTypeUser(), sellers, quantity);
     }
 }

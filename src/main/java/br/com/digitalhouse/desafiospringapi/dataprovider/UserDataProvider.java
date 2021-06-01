@@ -11,8 +11,6 @@ import br.com.digitalhouse.desafiospringapi.exceptions.ObjectNotFoundException;
 import br.com.digitalhouse.desafiospringapi.usecase.model.request.UserRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class UserDataProvider implements UserGateway {
 
@@ -25,7 +23,6 @@ public class UserDataProvider implements UserGateway {
     @Override
     public User getUserById(Integer userId) {
         var user = this.findUserById(userId);
-
         return UserMapper.fromUserData(user);
     }
 
@@ -40,16 +37,17 @@ public class UserDataProvider implements UserGateway {
 
     @Override
     public void followNewSeller(UserRequest request) {
+        if(this.userRepository.isUserFollowingSeller(request.getUserId(), request.getUserIdSeller()))
+            throw new DataIntegrityException("This seller is already being followed by you");
+
         var user = this.findUserById(request.getUserId());
         var seller = this.findSellerById(request.getUserIdSeller());
-
         user.addNewSeller(seller);
-
-        user = this.userRepository.save(user);
+        this.userRepository.save(user);
     }
 
     private UserData findSellerById(Integer sellerId) {
-        var seller = this.userRepository.findById(sellerId);
+        var seller = this.userRepository.findByUserIdAndTypeUser(sellerId, TypeUser.SELLER.getCode());
         if (seller.isEmpty())
             throw new ObjectNotFoundException("The seller not exists. Id: " + sellerId);
 
@@ -58,5 +56,13 @@ public class UserDataProvider implements UserGateway {
         }
 
         return seller.get();
+    }
+
+    @Override
+    public User getQuantityUsersFollowSeller(Integer userId) {
+        var seller = this.findSellerById(userId);
+        var followers = this.userRepository.getQuantityUsersFollowSeller(userId);
+
+        return UserMapper.fromUserData(seller, followers);
     }
 }

@@ -1,6 +1,9 @@
 package br.com.digitalhouse.desafiospringapi.usecase.model.request;
 
-public class UserRequest {
+import java.io.Serializable;
+
+public class UserRequest implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private final Integer userId;
     private Integer userIdSeller;
