@@ -2,9 +2,12 @@ package br.com.digitalhouse.desafiospringapi.configuration.service;
 
 import br.com.digitalhouse.desafiospringapi.dataprovider.UserDataProvider;
 import br.com.digitalhouse.desafiospringapi.dataprovider.repository.ProductRepository;
+import br.com.digitalhouse.desafiospringapi.dataprovider.repository.SellerRepository;
 import br.com.digitalhouse.desafiospringapi.dataprovider.repository.UserRepository;
 import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.ProductData;
+import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.SellerData;
 import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.UserData;
+import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.UsersData;
 import br.com.digitalhouse.desafiospringapi.domain.entity.enums.TypeUser;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +18,12 @@ import java.util.Arrays;
 public class DBService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+    private final SellerRepository sellerRepository;
 
-    public DBService(UserRepository userRepository, ProductRepository productRepository) {
+    public DBService(UserRepository userRepository, ProductRepository productRepository, SellerRepository sellerRepository) {
         this.userRepository = userRepository;
         this.productRepository = productRepository;
+        this.sellerRepository = sellerRepository;
     }
 
     public void InstantiateH2Database() {
@@ -35,5 +40,11 @@ public class DBService {
 
         var product1 = new ProductData(null, "Produto", 1, "Marca", "Azul", "Produto novo");
         this.productRepository.save(product1);
+
+        SellerData data = new SellerData(null, "Leonardo", 1);
+        this.sellerRepository.save(data);
+
+        var x = this.sellerRepository.findById(1);
+        System.out.println(x.get().getName());
     }
 }
