@@ -15,12 +15,12 @@ public class UserRequest implements Serializable {
     }
 
     public UserRequest(Integer userId, Integer userIdSeller) {
-        validateIds(userId, userIdSeller);
+        this.validateIds(userId, userIdSeller);
         this.userId = userId;
         this.userIdSeller = userIdSeller;
     }
 
-    public void validateIds(Integer userId, Integer userIdSeller) {
+    private void validateIds(Integer userId, Integer userIdSeller) {
         if (userId == userIdSeller)
             throw new DataIntegrityException("Both ids owned by same user");
     }

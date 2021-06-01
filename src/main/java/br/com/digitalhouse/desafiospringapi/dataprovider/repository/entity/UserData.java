@@ -30,15 +30,19 @@ public class UserData {
     )
     private List<UserData> followers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<ProductData> products = new ArrayList<>();
+
     public UserData() {
     }
 
-    public UserData(Integer userId, String name, TypeUser typeUser, List<UserData> followed, List<UserData> followers) {
+    public UserData(Integer userId, String name, TypeUser typeUser, List<UserData> followed, List<UserData> followers, List<ProductData> products) {
         this.userId = userId;
         this.name = name;
         this.typeUser = (typeUser == null) ? null : typeUser.getCode();
         this.followed = followed;
         this.followers = followers;
+        this.products = products;
     }
 
     public Integer getUserId() {
@@ -85,4 +89,11 @@ public class UserData {
         this.followed.add(data);
     }
 
+    public List<ProductData> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<ProductData> products) {
+        this.products = products;
+    }
 }

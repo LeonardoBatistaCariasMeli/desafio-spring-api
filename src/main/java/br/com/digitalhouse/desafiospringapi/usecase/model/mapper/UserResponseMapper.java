@@ -29,5 +29,4 @@ public interface UserResponseMapper {
         var quantityFollowers = user.getQuantityFollowers() == 0 ? null : user.getQuantityFollowers();
         return new UserResponse(user.getUserId(), user.getName(), user.getTypeUser(), following, followers, quantityFollowers);
     }
-
 }
