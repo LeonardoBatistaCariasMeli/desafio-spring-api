@@ -2,7 +2,7 @@ package br.com.digitalhouse.desafiospringapi.entrypoint.controller;
 
 import br.com.digitalhouse.desafiospringapi.usecase.PostUseCase;
 import br.com.digitalhouse.desafiospringapi.usecase.model.request.PostRequest;
-import br.com.digitalhouse.desafiospringapi.usecase.model.response.PostResponse;
+import br.com.digitalhouse.desafiospringapi.usecase.model.response.UserPostResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,9 +24,9 @@ public class PostController {
     }
 
     @GetMapping("/followed/{userId}/posts")
-    public ResponseEntity<?> getAllPostsByUserIdOnLastTwoWeeks(@PathVariable Integer userId) {
-        this.postUseCase.getAllPostsByUserIdOnLastTwoWeeks(userId);
-        return null;
+    public ResponseEntity<UserPostResponse> getAllPostsByUserIdOnLastTwoWeeks(@PathVariable Integer userId) {
+        var response = this.postUseCase.getAllPostsByUserIdOnLastTwoWeeks(userId);
+        return ResponseEntity.ok().body(response);
     }
 
 }

@@ -2,7 +2,9 @@ package br.com.digitalhouse.desafiospringapi.usecase.impl;
 
 import br.com.digitalhouse.desafiospringapi.domain.gateways.PostGateway;
 import br.com.digitalhouse.desafiospringapi.usecase.PostUseCase;
+import br.com.digitalhouse.desafiospringapi.usecase.model.mapper.UserPostResponseMapper;
 import br.com.digitalhouse.desafiospringapi.usecase.model.request.PostRequest;
+import br.com.digitalhouse.desafiospringapi.usecase.model.response.UserPostResponse;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,8 +22,10 @@ public class PostUseCaseImpl implements PostUseCase {
     }
 
     @Override
-    public void getAllPostsByUserIdOnLastTwoWeeks(Integer userId) {
-        this.postGateway.getAllPostsByUserIdOnLastTwoWeeks(userId);
+    public UserPostResponse getAllPostsByUserIdOnLastTwoWeeks(Integer userId) {
+        var post = this.postGateway.getAllPostsByUserIdOnLastTwoWeeks(userId);
+
+        return UserPostResponseMapper.toUserPostResponseOf(post);
     }
 
 }

@@ -6,7 +6,9 @@ import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.PostD
 import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.ProductData;
 import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.UserData;
 import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.mapper.UserDataMapper;
+import br.com.digitalhouse.desafiospringapi.domain.entity.Post;
 import br.com.digitalhouse.desafiospringapi.domain.entity.enums.TypeUser;
+import br.com.digitalhouse.desafiospringapi.domain.entity.mapper.PostMapper;
 import br.com.digitalhouse.desafiospringapi.domain.gateways.PostGateway;
 import br.com.digitalhouse.desafiospringapi.exceptions.DataIntegrityException;
 import br.com.digitalhouse.desafiospringapi.exceptions.ObjectNotFoundException;
@@ -15,6 +17,7 @@ import br.com.digitalhouse.desafiospringapi.usecase.model.request.ProductRequest
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class PostDataProvider implements PostGateway {
@@ -57,7 +60,7 @@ public class PostDataProvider implements PostGateway {
     }
 
     @Override
-    public void getAllPostsByUserIdOnLastTwoWeeks(Integer userId) {
+    public List<Post> getAllPostsByUserIdOnLastTwoWeeks(Integer userId) {
         var user = this.getUserById(userId);
         var now = LocalDate.now();
         var twoWeeksAgo = now.minusWeeks(2);
@@ -67,6 +70,7 @@ public class PostDataProvider implements PostGateway {
             throw new ObjectNotFoundException("This seller don't hava any post");
         }
 
+        return PostMapper.fromListPostData(posts);
     }
 
 }

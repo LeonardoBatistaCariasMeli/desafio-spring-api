@@ -1,8 +1,10 @@
 package br.com.digitalhouse.desafiospringapi.usecase;
 
 import br.com.digitalhouse.desafiospringapi.usecase.model.request.PostRequest;
+import br.com.digitalhouse.desafiospringapi.usecase.model.response.UserPostResponse;
 
 public interface PostUseCase {
     public void registerNewPost(PostRequest request);
-    public void getAllPostsByUserIdOnLastTwoWeeks(Integer userId);
+
+    public UserPostResponse getAllPostsByUserIdOnLastTwoWeeks(Integer userId);
 }
