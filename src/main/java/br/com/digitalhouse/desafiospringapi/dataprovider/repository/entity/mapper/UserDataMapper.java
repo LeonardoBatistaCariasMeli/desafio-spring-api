@@ -1,5 +1,8 @@
-package br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity;
+package br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.mapper;
 
+import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.CustomerData;
+import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.SellerData;
+import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.UserData;
 import br.com.digitalhouse.desafiospringapi.domain.entity.Seller;
 import br.com.digitalhouse.desafiospringapi.domain.entity.User;
 
