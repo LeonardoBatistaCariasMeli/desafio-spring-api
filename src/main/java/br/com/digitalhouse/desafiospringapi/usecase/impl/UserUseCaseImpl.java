@@ -46,4 +46,9 @@ public class UserUseCaseImpl implements UserUseCase {
         return UserResponseMapper.fromUserForAllSellersThatAnUserFollow(user);
     }
 
+    @Override
+    public void unfollowSeller(UserRequest request) {
+        this.userGateway.unfollowSeller(request);
+    }
+
 }

@@ -1,9 +1,7 @@
 package br.com.digitalhouse.desafiospringapi.entrypoint.controller;
 
-import br.com.digitalhouse.desafiospringapi.domain.entity.User;
 import br.com.digitalhouse.desafiospringapi.usecase.UserUseCase;
 import br.com.digitalhouse.desafiospringapi.usecase.model.request.UserRequest;
-import br.com.digitalhouse.desafiospringapi.usecase.model.response.SellerResponse;
 import br.com.digitalhouse.desafiospringapi.usecase.model.response.UserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +26,6 @@ public class UserController {
     @PostMapping("/{userId}/follow/{userIdToFollow}")
     public ResponseEntity<Void> followNewSeller(@PathVariable Integer userId, @PathVariable Integer userIdToFollow) {
         var request = new UserRequest(userId, userIdToFollow);
-
         this.userUseCase.followNewSeller(request);
 
         return ResponseEntity.ok().build();
@@ -50,5 +47,12 @@ public class UserController {
     public ResponseEntity<UserResponse> getAllSellersThatAnUserFollow(@PathVariable Integer userId) {
         var response = this.userUseCase.getAllSellersThatAnUserFollow(userId);
         return ResponseEntity.ok().body(response);
+    }
+
+    @PatchMapping("/{userId}/unfollow/{userIdToUnfollow}")
+    public ResponseEntity<Void> unfollowSeller(@PathVariable Integer userId, @PathVariable Integer userIdToUnfollow) {
+        var request = new UserRequest(userId, userIdToUnfollow);
+        this.userUseCase.unfollowSeller(request);
+        return ResponseEntity.noContent().build();
     }
 }

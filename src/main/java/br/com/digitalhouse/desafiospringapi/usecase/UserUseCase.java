@@ -10,4 +10,5 @@ public interface UserUseCase {
     public SellerResponse getQuantityUsersFollowSeller(Integer userId);
     public UserResponse getAllUsersFollowSeller(Integer userId);
     public UserResponse getAllSellersThatAnUserFollow(Integer userId);
+    public void unfollowSeller(UserRequest request);
 }

@@ -37,14 +37,14 @@ public class UserDataProvider implements UserGateway {
 
     @Override
     public void followNewSeller(UserRequest request) {
-        if (this.userRepository.isUserFollowingSeller(request.getUserId(), request.getUserIdFollow()))
+        if (this.userRepository.isUserFollowingSeller(request.getUserId(), request.getSellerId()))
             throw new DataIntegrityException("This seller is already being followed by you");
         this.follow(request);
     }
 
     private void follow(UserRequest request) {
         var user = this.findUserById(request.getUserId());
-        var userFollow = this.findSellerByUserId(request.getUserIdFollow());
+        var userFollow = this.findSellerByUserId(request.getSellerId());
         user.addNewFollow(userFollow);
         this.userRepository.save(user);
     }
@@ -63,6 +63,23 @@ public class UserDataProvider implements UserGateway {
         var data = this.findSellerByUserId(userId);
 
         return UserMapper.fromUserData(data);
+    }
+
+    @Override
+    public void unfollowSeller(UserRequest request) {
+        var user = this.findUserById(request.getUserId());
+
+        boolean isFollower = user.getFollowed().stream().anyMatch(f -> {
+            if (f.getUserId() == request.getSellerId()) {
+                user.getFollowed().remove(f);
+                return true;
+            }
+            return false;
+        });
+
+        if (!isFollower)
+            throw new ObjectNotFoundException("This seller not is followed by you");
+        this.userRepository.save(user);
     }
 
 }

@@ -7,4 +7,5 @@ public interface UserGateway {
     public User getUserById(Integer userId);
     public void followNewSeller(UserRequest request);
     public User getAllUsersFollowSeller(Integer userId);
+    public void unfollowSeller(UserRequest request);
 }
