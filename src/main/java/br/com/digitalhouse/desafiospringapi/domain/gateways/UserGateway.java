@@ -6,7 +6,5 @@ import br.com.digitalhouse.desafiospringapi.usecase.model.request.UserRequest;
 public interface UserGateway {
     public User getUserById(Integer userId);
     public void followNewSeller(UserRequest request);
-    public User getQuantityUsersFollowSeller(Integer userId);
     public User getAllUsersFollowSeller(Integer userId);
-    public User getAllSellersThatAnUserFollow(Integer userId);
 }

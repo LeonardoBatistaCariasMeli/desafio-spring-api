@@ -1,9 +1,12 @@
 package br.com.digitalhouse.desafiospringapi.usecase.impl;
 
+import br.com.digitalhouse.desafiospringapi.domain.entity.Seller;
+import br.com.digitalhouse.desafiospringapi.domain.entity.User;
 import br.com.digitalhouse.desafiospringapi.domain.gateways.UserGateway;
 import br.com.digitalhouse.desafiospringapi.usecase.UserUseCase;
 import br.com.digitalhouse.desafiospringapi.usecase.model.mapper.UserResponseMapper;
 import br.com.digitalhouse.desafiospringapi.usecase.model.request.UserRequest;
+import br.com.digitalhouse.desafiospringapi.usecase.model.response.SellerResponse;
 import br.com.digitalhouse.desafiospringapi.usecase.model.response.UserResponse;
 import org.springframework.stereotype.Component;
 
@@ -28,9 +31,9 @@ public class UserUseCaseImpl implements UserUseCase {
     }
 
     @Override
-    public UserResponse getQuantityUsersFollowSeller(Integer userId) {
-        var user = this.userGateway.getQuantityUsersFollowSeller(userId);
-        return UserResponseMapper.fromUser(user);
+    public SellerResponse getQuantityUsersFollowSeller(Integer userId) {
+        var user = this.userGateway.getUserById(userId);
+        return (SellerResponse) UserResponseMapper.fromUser(user);
     }
 
     @Override
@@ -41,7 +44,8 @@ public class UserUseCaseImpl implements UserUseCase {
 
     @Override
     public UserResponse getAllSellersThatAnUserFollow(Integer userId) {
-        var user = this.userGateway.getAllSellersThatAnUserFollow(userId);
+        var user = this.userGateway.getUserById(userId);
         return UserResponseMapper.fromUser(user);
     }
+
 }

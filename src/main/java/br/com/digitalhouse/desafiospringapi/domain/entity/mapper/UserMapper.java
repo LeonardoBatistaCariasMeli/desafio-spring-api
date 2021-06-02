@@ -1,6 +1,9 @@
 package br.com.digitalhouse.desafiospringapi.domain.entity.mapper;
 
+import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.SellerData;
 import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.UserData;
+import br.com.digitalhouse.desafiospringapi.domain.entity.Customer;
+import br.com.digitalhouse.desafiospringapi.domain.entity.Seller;
 import br.com.digitalhouse.desafiospringapi.domain.entity.User;
 
 import java.util.ArrayList;
@@ -10,9 +13,14 @@ import java.util.stream.Collectors;
 public interface UserMapper {
 
     static User fromUserData(UserData data) {
-        var following = assemblesFollowingOrFollowersListOf(data.getFollowed());
-        var followers =  assemblesFollowingOrFollowersListOf(data.getFollowers());
-        return new User(data.getUserId(), data.getName(),data.getTypeUser(), following, followers, 0);
+        var followed =  assemblesFollowingOrFollowersListOf(data.getFollowed());
+        if(data.getClass().getSimpleName().contains("Customer")) {
+            return new Customer(data.getUserId(), data.getName(), data.getTypeUser(), followed);
+        } else {
+            var sellerData = (SellerData) data;
+            var followers =  assemblesFollowingOrFollowersListOf(sellerData.getFollowers());
+            return new Seller(sellerData.getUserId(), sellerData.getName(), sellerData.getTypeUser(), followed, followers);
+        }
     }
 
     static List<User> assemblesFollowingOrFollowersListOf(List<UserData> listData) {
@@ -23,13 +31,11 @@ public interface UserMapper {
     }
 
     static User assemblesFollowingOrFollowersOf(UserData data) {
-        return new User(data.getUserId(), data.getName(), data.getTypeUser(), new ArrayList<>(), new ArrayList<>(), 0);
+        if(data.getClass().getSimpleName().contains("Customer")) {
+            return new Customer(data.getUserId(), data.getName(), data.getTypeUser(), new ArrayList<>());
+        } else {
+            return new Seller(data.getUserId(), data.getName(), data.getTypeUser(), new ArrayList<>(), new ArrayList<>());
+        }
     }
 
-    static User fromUserData(UserData data, Integer quantity) {
-        var following = new ArrayList<User>();
-        var followers = new ArrayList<User>();
-
-        return new User(data.getUserId(), data.getName(), data.getTypeUser(), following, followers, quantity);
-    }
 }

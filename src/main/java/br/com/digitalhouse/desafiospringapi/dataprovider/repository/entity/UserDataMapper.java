@@ -1,5 +1,6 @@
 package br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity;
 
+import br.com.digitalhouse.desafiospringapi.domain.entity.Seller;
 import br.com.digitalhouse.desafiospringapi.domain.entity.User;
 
 import java.util.ArrayList;
@@ -10,8 +11,14 @@ public interface UserDataMapper {
 
     static UserData fromUser(User user) {
         var followed = fromListUserFollowedOrFollowers(user.getFollowed());
-        var followers = fromListUserFollowedOrFollowers(user.getFollowers());
-        return new UserData(user.getUserId(), user.getName(), user.getTypeUser(), followed, followers,new ArrayList<>());
+
+        if(user.getClass().getSimpleName().equals("Customer")) {
+            return new CustomerData(user.getUserId(), user.getName(), user.getTypeUser(), followed);
+        } else {
+            var seller = (Seller) user;
+            var followers = fromListUserFollowedOrFollowers(seller.getFollowers());
+            return new SellerData(user.getUserId(), user.getName(), user.getTypeUser(), followed, followers,new ArrayList<>());
+        }
     }
 
     static List<UserData> fromListUserFollowedOrFollowers(List<User> listData) {
@@ -22,7 +29,12 @@ public interface UserDataMapper {
     }
 
     static UserData fromUserFollowedOrFollowers(User user) {
-        return new UserData(user.getUserId(), user.getName(), user.getTypeUser(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+
+        if(user.getClass().getSimpleName().equals("Customer")) {
+            return new CustomerData(user.getUserId(), user.getName(), user.getTypeUser(), new ArrayList<>());
+        } else {
+            return new SellerData(user.getUserId(), user.getName(), user.getTypeUser(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        }
     }
 
 }

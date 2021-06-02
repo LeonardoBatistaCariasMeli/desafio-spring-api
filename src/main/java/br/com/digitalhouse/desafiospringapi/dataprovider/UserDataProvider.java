@@ -37,17 +37,15 @@ public class UserDataProvider implements UserGateway {
 
     @Override
     public void followNewSeller(UserRequest request) {
-        if (this.userRepository.isUserFollowingSeller(request.getUserId(), request.getUserIdSeller()))
+        if (this.userRepository.isUserFollowingSeller(request.getUserId(), request.getUserIdFollow()))
             throw new DataIntegrityException("This seller is already being followed by you");
-
         this.follow(request);
     }
 
     private void follow(UserRequest request) {
         var user = this.findUserById(request.getUserId());
-        var seller = this.findSellerByUserId(request.getUserIdSeller());
-        this.isBothSellers(user.getTypeUser(), seller.getTypeUser());
-        user.addNewFollow(seller);
+        var userFollow = this.findSellerByUserId(request.getUserIdFollow());
+        user.addNewFollow(userFollow);
         this.userRepository.save(user);
     }
 
@@ -60,30 +58,11 @@ public class UserDataProvider implements UserGateway {
         return user.get();
     }
 
-    private void isBothSellers(Integer typeUserCode1, Integer typeUserCode2) {
-        if(typeUserCode1 == typeUserCode2)
-            throw new DataIntegrityException("Both users are sellers");
-    }
-
-    @Override
-    public User getQuantityUsersFollowSeller(Integer userId) {
-        var seller = this.findSellerByUserId(userId);
-        var followers = this.userRepository.getQuantityUsersFollowSeller(userId);
-
-        return UserMapper.fromUserData(seller, followers);
-    }
-
     @Override
     public User getAllUsersFollowSeller(Integer userId) {
-        var user = this.findSellerByUserId(userId);
+        var data = this.findSellerByUserId(userId);
 
-        return UserMapper.fromUserData(user);
+        return UserMapper.fromUserData(data);
     }
 
-    @Override
-    public User getAllSellersThatAnUserFollow(Integer userId) {
-        var user = this.findUserById(userId);
-
-        return UserMapper.fromUserData(user);
-    }
 }
