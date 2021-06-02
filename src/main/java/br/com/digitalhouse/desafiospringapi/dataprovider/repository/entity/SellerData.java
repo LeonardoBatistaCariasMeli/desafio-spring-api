@@ -19,13 +19,17 @@ public class SellerData extends UserData {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<ProductData> products = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<PostData> posts = new ArrayList<>();
+
     public SellerData() {
     }
 
-    public SellerData(Integer userId, String name, TypeUser typeUser, List<UserData> followed, List<UserData> followers, List<ProductData> products) {
+    public SellerData(Integer userId, String name, TypeUser typeUser, List<UserData> followed, List<UserData> followers, List<ProductData> products, List<PostData> posts) {
         super(userId, name, typeUser, followed);
         this.followers = followers;
         this.products = products;
+        this.posts = posts;
     }
 
     public List<UserData> getFollowers() {
@@ -36,11 +40,19 @@ public class SellerData extends UserData {
         this.followers = followers;
     }
 
-    public List<ProductData>  getProducts() {
+    public List<ProductData> getProducts() {
         return products;
     }
 
     public void setProducts(List<ProductData> products) {
         this.products = products;
+    }
+
+    public List<PostData> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<PostData> posts) {
+        this.posts = posts;
     }
 }

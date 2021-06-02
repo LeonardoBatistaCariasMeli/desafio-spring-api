@@ -19,18 +19,23 @@ public class DBService {
     }
 
     public void InstantiateH2Database() {
-        var seller = new SellerData(null, "Leonardo", TypeUser.SELLER, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        var product1 = new ProductData(null, "Cadeira", 1, "Marca", "Azul", "Produto novo");
+        this.productRepository.save(product1);
+
+        var product2 = new ProductData(null, "Mesa", 1, "Marca", "Verde", "Produto novo");
+        this.productRepository.save(product2);
+
+        var seller = new SellerData(null, "Leonardo", TypeUser.SELLER, new ArrayList<>(), new ArrayList<>(), Arrays.asList(product1, product2), new ArrayList<>());
         this.userRepository.save(seller);
         seller.setUserId(1);
 
-        var seller2 = new SellerData(null, "Nycolas", TypeUser.SELLER, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        var seller2 = new SellerData(null, "Nycolas", TypeUser.SELLER, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         this.userRepository.save(seller2);
 
-        var seller3 = new SellerData(null, "Carolina", TypeUser.SELLER, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        var seller3 = new SellerData(null, "Carolina", TypeUser.SELLER, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         this.userRepository.save(seller3);
 
-        var product1 = new ProductData(null, "Produto", 1, "Marca", "Azul", "Produto novo", seller);
-        this.productRepository.save(product1);
+
 
         var customer = new CustomerData(null, "Onias", TypeUser.BUYER, Arrays.asList(seller));
         this.userRepository.save(customer);

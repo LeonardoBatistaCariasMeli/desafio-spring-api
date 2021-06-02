@@ -20,7 +20,7 @@ public interface UserDataMapper {
         } else {
             var seller = (Seller) user;
             var followers = fromListUserFollowedOrFollowers(seller.getFollowers());
-            return new SellerData(user.getUserId(), user.getName(), user.getTypeUser(), followed, followers,new ArrayList<>());
+            return new SellerData(user.getUserId(), user.getName(), user.getTypeUser(), followed, followers,new ArrayList<>(), new ArrayList<>());
         }
     }
 
@@ -36,7 +36,7 @@ public interface UserDataMapper {
         if(user.getClass().getSimpleName().equals("Customer")) {
             return new CustomerData(user.getUserId(), user.getName(), user.getTypeUser(), new ArrayList<>());
         } else {
-            return new SellerData(user.getUserId(), user.getName(), user.getTypeUser(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+            return new SellerData(user.getUserId(), user.getName(), user.getTypeUser(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         }
     }
 

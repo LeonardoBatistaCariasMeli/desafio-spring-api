@@ -1,7 +1,5 @@
 package br.com.digitalhouse.desafiospringapi.usecase.impl;
 
-import br.com.digitalhouse.desafiospringapi.domain.entity.Seller;
-import br.com.digitalhouse.desafiospringapi.domain.entity.User;
 import br.com.digitalhouse.desafiospringapi.domain.gateways.UserGateway;
 import br.com.digitalhouse.desafiospringapi.usecase.UserUseCase;
 import br.com.digitalhouse.desafiospringapi.usecase.model.mapper.UserResponseMapper;
@@ -33,19 +31,19 @@ public class UserUseCaseImpl implements UserUseCase {
     @Override
     public SellerResponse getQuantityUsersFollowSeller(Integer userId) {
         var user = this.userGateway.getUserById(userId);
-        return (SellerResponse) UserResponseMapper.fromUser(user);
+        return (SellerResponse) UserResponseMapper.fromUserForQuantityUsersFollow(user);
     }
 
     @Override
     public UserResponse getAllUsersFollowSeller(Integer userId) {
         var user = this.userGateway.getAllUsersFollowSeller(userId);
-        return UserResponseMapper.fromUser(user);
+        return UserResponseMapper.fromUserForAllUsersFollowSeller(user);
     }
 
     @Override
     public UserResponse getAllSellersThatAnUserFollow(Integer userId) {
         var user = this.userGateway.getUserById(userId);
-        return UserResponseMapper.fromUser(user);
+        return UserResponseMapper.fromUserForAllSellersThatAnUserFollow(user);
     }
 
 }

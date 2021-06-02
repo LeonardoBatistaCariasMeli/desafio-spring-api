@@ -19,4 +19,9 @@ public class PostUseCaseImpl implements PostUseCase {
         this.postGateway.registerNewPost(request);
     }
 
+    @Override
+    public void getAllPostsByUserIdOnLastTwoWeeks(Integer userId) {
+        this.postGateway.getAllPostsByUserIdOnLastTwoWeeks(userId);
+    }
+
 }

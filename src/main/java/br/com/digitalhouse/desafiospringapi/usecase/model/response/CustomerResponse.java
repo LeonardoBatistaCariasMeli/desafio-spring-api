@@ -6,7 +6,7 @@ import java.util.List;
 
 public class CustomerResponse extends UserResponse{
 
-    public CustomerResponse(Integer userId, String name, TypeUser typeuser, List<UserResponse> followed) {
-        super(userId, name, typeuser, followed);
+    public CustomerResponse(Integer userId, String name, List<UserResponse> followed) {
+        super(userId, name, followed);
     }
 }

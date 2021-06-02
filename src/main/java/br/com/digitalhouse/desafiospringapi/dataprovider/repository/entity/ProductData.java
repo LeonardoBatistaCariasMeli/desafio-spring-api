@@ -1,5 +1,7 @@
 package br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,6 +17,7 @@ public class ProductData {
     private String color;
     private String notes;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserData user;
@@ -22,14 +25,13 @@ public class ProductData {
     public ProductData() {
     }
 
-    public ProductData(Integer productId, String productName, Integer type, String brand, String color, String notes, UserData user) {
+    public ProductData(Integer productId, String productName, Integer type, String brand, String color, String notes) {
         this.productId = productId;
         this.productName = productName;
         this.type = type;
         this.brand = brand;
         this.color = color;
         this.notes = notes;
-        this.user = user;
     }
 
     public Integer getProductId() {

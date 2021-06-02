@@ -13,30 +13,53 @@ import java.util.stream.Collectors;
 public interface UserResponseMapper {
 
     static UserResponse fromUser(User user) {
-        var followed = assemblesFollowingOrFollowersListOf(user.getFollowed());
+        var followed = assemblesFollowedOrFollowersListOf(user.getFollowed());
 
-        if(user.getClass().getSimpleName().equals("Seller")) {
+        if (user.getClass().getSimpleName().equals("Seller")) {
             var seller = (Seller) user;
-            var quantityFollowers = seller.getFollowers() == null ? null : seller.getFollowers().size();
-            var followers = assemblesFollowingOrFollowersListOf(seller.getFollowers());
-            return new SellerResponse(seller.getUserId(), seller.getName(), seller.getTypeUser(), followed, followers, quantityFollowers);
+            var followers = assemblesFollowedOrFollowersListOf(seller.getFollowers());
+            return new SellerResponse(seller.getUserId(), seller.getName(), followed, followers, null);
         }
 
-        return new CustomerResponse(user.getUserId(), user.getName(), user.getTypeUser(), followed);
+        return new CustomerResponse(user.getUserId(), user.getName(), followed);
     }
 
-    static List<UserResponse> assemblesFollowingOrFollowersListOf(List<User> list) {
-        if(list == null || list.isEmpty()) {
+    static List<UserResponse> assemblesFollowedOrFollowersListOf(List<User> list) {
+        if (list == null || list.isEmpty()) {
             return new ArrayList<>();
         }
-        return list.stream().map(UserResponseMapper::assembleFollowingOrFollowersOf).collect(Collectors.toList());
+        return list.stream().map(UserResponseMapper::assembleFollowedOrFollowersOf).collect(Collectors.toList());
     }
 
-    static UserResponse assembleFollowingOrFollowersOf(User user) {
-        if(user.getClass().getSimpleName().equals("Customer")) {
-            return new CustomerResponse(user.getUserId(), user.getName(), user.getTypeUser(), null);
-        } else {
-            return new SellerResponse(user.getUserId(), user.getName(), user.getTypeUser(), null, null, null);
+    static UserResponse assembleFollowedOrFollowersOf(User user) {
+        if (user.getClass().getSimpleName().equals("Customer")) {
+            return new CustomerResponse(user.getUserId(), user.getName(), null);
         }
+        return new SellerResponse(user.getUserId(), user.getName(), null, null, null);
     }
+
+    static UserResponse fromUserForQuantityUsersFollow(User user) {
+        var seller = (Seller) user;
+        var followers = assemblesFollowedOrFollowersListOf(seller.getFollowers());
+
+        return new SellerResponse(seller.getUserId(), seller.getName(), null, null, followers.size());
+    }
+
+    static UserResponse fromUserForAllUsersFollowSeller(User user) {
+        var seller = (Seller) user;
+        var followers = assemblesFollowedOrFollowersListOf(seller.getFollowers());
+
+        return new SellerResponse(seller.getUserId(), seller.getName(), null, followers, null);
+    }
+
+    static UserResponse fromUserForAllSellersThatAnUserFollow(User user) {
+        var followed = assemblesFollowedOrFollowersListOf(user.getFollowed());
+
+        if (user.getClass().getSimpleName().equals("Seller")) {
+            return new SellerResponse(user.getUserId(), user.getName(), followed, null, null);
+        }
+
+        return new CustomerResponse(user.getUserId(), user.getName(), followed);
+    }
+
 }

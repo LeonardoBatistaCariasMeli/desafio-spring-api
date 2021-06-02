@@ -12,15 +12,13 @@ public abstract class UserResponse implements Serializable {
 
     private Integer userId;
     private String name;
-    private TypeUser typeuser;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<UserResponse> followed = new ArrayList<>();
 
-    public UserResponse(Integer userId, String name, TypeUser typeuser, List<UserResponse> followed) {
+    public UserResponse(Integer userId, String name, List<UserResponse> followed) {
         this.userId = userId;
         this.name = name;
-        this.typeuser = typeuser;
         this.followed = followed;
     }
 
@@ -32,15 +30,23 @@ public abstract class UserResponse implements Serializable {
         return userId;
     }
 
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     public String getName() {
         return name;
     }
 
-    public TypeUser getTypeuser() {
-        return typeuser;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<UserResponse> getFollowed() {
         return followed;
+    }
+
+    public void setFollowed(List<UserResponse> followed) {
+        this.followed = followed;
     }
 }
