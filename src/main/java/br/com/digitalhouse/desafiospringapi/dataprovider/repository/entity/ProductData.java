@@ -22,13 +22,14 @@ public class ProductData {
     public ProductData() {
     }
 
-    public ProductData(Integer productId, String productName, Integer type, String brand, String color, String notes) {
+    public ProductData(Integer productId, String productName, Integer type, String brand, String color, String notes, UserData user) {
         this.productId = productId;
         this.productName = productName;
         this.type = type;
         this.brand = brand;
         this.color = color;
         this.notes = notes;
+        this.user = user;
     }
 
     public Integer getProductId() {
@@ -77,5 +78,13 @@ public class ProductData {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public UserData getUser() {
+        return user;
+    }
+
+    public void setUser(UserData user) {
+        this.user = user;
     }
 }

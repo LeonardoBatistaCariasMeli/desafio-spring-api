@@ -20,7 +20,7 @@ public class PostController {
     }
 
     @PostMapping("/posts")
-    public ResponseEntity<PostResponse> registerNewPost(@RequestBody PostRequest request) {
+    public ResponseEntity<Void> registerNewPost(@RequestBody PostRequest request) {
         this.postUseCase.registerNewPost(request);
         return ResponseEntity.created(URI.create("")).build();
     }

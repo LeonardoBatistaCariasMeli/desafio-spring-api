@@ -5,7 +5,7 @@ import br.com.digitalhouse.desafiospringapi.dataprovider.repository.ProductRepos
 import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.PostData;
 import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.ProductData;
 import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.UserData;
-import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.UserDataMapper;
+import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.mapper.UserDataMapper;
 import br.com.digitalhouse.desafiospringapi.domain.entity.enums.TypeUser;
 import br.com.digitalhouse.desafiospringapi.domain.gateways.PostGateway;
 import br.com.digitalhouse.desafiospringapi.exceptions.DataIntegrityException;
@@ -32,7 +32,7 @@ public class PostDataProvider implements PostGateway {
         var post = this.assemblePostDataOf(request);
         post = this.postRepository.save(post);
 
-        if(post.getPostId() == null)
+        if (post.getPostId() == null)
             throw new DataIntegrityException("The post was not created");
     }
 
@@ -49,7 +49,7 @@ public class PostDataProvider implements PostGateway {
 
     private UserData getUserById(Integer userId) {
         var user = this.userDataProvider.getUserById(userId);
-        if(!user.getTypeUser().equals(TypeUser.SELLER))
+        if (!user.getTypeUser().equals(TypeUser.SELLER))
             throw new DataIntegrityException("This user can't create a post!");
         return UserDataMapper.fromUser(user);
     }

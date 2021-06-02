@@ -4,21 +4,15 @@ import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.UserD
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserData, Integer> {
 
-    public Optional<UserData> findByUserIdAndTypeUser(Integer userId, Integer typeUser);
-
-    @Transactional
-    @Query("SELECT count(u.userId) FROM UserData u INNER JOIN u.followed s WHERE s.userId = ?1")
-    public Integer getQuantityUsersFollowSeller(Integer userId);
-
-    @Transactional
     @Query("SELECT CASE WHEN EXISTS (SELECT u.userId FROM UserData u INNER JOIN u.followed f WHERE u.userId = ?1 AND f.userId = ?2) THEN TRUE ELSE FALSE END FROM UserData")
     public Boolean isUserFollowingSeller(Integer userId, Integer userFollowId);
+
+    public Optional<UserData> findByUserIdAndTypeUser(Integer userId, Integer typeUser);
+
 }

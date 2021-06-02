@@ -8,20 +8,20 @@ public class UserRequest implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final Integer userId;
-    private Integer userIdSeller;
+    private Integer userIdFollow;
 
     public UserRequest(Integer userId) {
         this.userId = userId;
     }
 
-    public UserRequest(Integer userId, Integer userIdSeller) {
-        this.validateIds(userId, userIdSeller);
+    public UserRequest(Integer userId, Integer userIdFollow) {
+        this.validateIds(userId, userIdFollow);
         this.userId = userId;
-        this.userIdSeller = userIdSeller;
+        this.userIdFollow = userIdFollow;
     }
 
-    private void validateIds(Integer userId, Integer userIdSeller) {
-        if (userId == userIdSeller)
+    private void validateIds(Integer userId, Integer userIdFollow) {
+        if (userId == userIdFollow)
             throw new DataIntegrityException("Both ids owned by same user");
     }
 
@@ -29,7 +29,7 @@ public class UserRequest implements Serializable {
         return userId;
     }
 
-    public Integer getUserIdSeller() {
-        return userIdSeller;
+    public Integer getUserIdFollow() {
+        return userIdFollow;
     }
 }

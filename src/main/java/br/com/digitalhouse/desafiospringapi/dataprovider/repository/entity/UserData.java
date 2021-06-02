@@ -6,9 +6,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Inheritance
 @Entity
 @Table(name = "USER")
-public class UserData {
+public abstract class UserData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,26 +24,14 @@ public class UserData {
     )
     private List<UserData> followed = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(name = "USER_FOLLOWED",
-            joinColumns = @JoinColumn(name = "userFollowId"),
-            inverseJoinColumns = @JoinColumn(name = "userId")
-    )
-    private List<UserData> followers = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<ProductData> products = new ArrayList<>();
-
     public UserData() {
     }
 
-    public UserData(Integer userId, String name, TypeUser typeUser, List<UserData> followed, List<UserData> followers, List<ProductData> products) {
+    public UserData(Integer userId, String name, TypeUser typeUser, List<UserData> followed) {
         this.userId = userId;
         this.name = name;
         this.typeUser = (typeUser == null) ? null : typeUser.getCode();
         this.followed = followed;
-        this.followers = followers;
-        this.products = products;
     }
 
     public Integer getUserId() {
@@ -77,23 +66,7 @@ public class UserData {
         this.followed = followed;
     }
 
-    public List<UserData> getFollowers() {
-        return followers;
-    }
-
-    public void setFollowers(List<UserData> followers) {
-        this.followers = followers;
-    }
-
     public void addNewFollow(UserData data) {
         this.followed.add(data);
-    }
-
-    public List<ProductData> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<ProductData> products) {
-        this.products = products;
     }
 }
