@@ -1,8 +1,11 @@
 package br.com.digitalhouse.desafiospringapi.usecase.model.response;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class PostResponse {
+public class PostResponse implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private Integer postId;
     private LocalDate date;
     private ProductResponse detail;
