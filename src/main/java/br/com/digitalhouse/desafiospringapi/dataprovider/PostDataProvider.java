@@ -61,15 +61,22 @@ public class PostDataProvider implements PostGateway {
 
     @Override
     public List<Post> getAllPostsByUserIdOnLastTwoWeeks(Integer userId) {
-        var user = this.getUserById(userId);
         var now = LocalDate.now();
         var twoWeeksAgo = now.minusWeeks(2);
         var posts = this.postRepository.getAllPostsByUserIdOnLastTwoWeeks(twoWeeksAgo, now, userId);
 
         if (posts == null || posts.isEmpty()) {
-            throw new ObjectNotFoundException("This seller don't hava any post");
+            throw new ObjectNotFoundException("This seller don't have any post");
         }
 
+        return PostMapper.fromListPostData(posts);
+    }
+
+    @Override
+    public List<Post> getAllPromoPostsByUserId(Integer userId) {
+        var posts = this.postRepository.findByHasPromoAndUserUserId(true, userId);
+        if(posts == null || posts.isEmpty())
+            throw new ObjectNotFoundException("This seller don't have any post");
         return PostMapper.fromListPostData(posts);
     }
 }

@@ -55,4 +55,8 @@ public class Post {
     public Double getDiscount() {
         return discount;
     }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

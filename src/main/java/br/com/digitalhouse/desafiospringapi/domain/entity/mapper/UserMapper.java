@@ -17,9 +17,13 @@ public interface UserMapper {
         if(data.getClass().getSimpleName().contains("Customer")) {
             return new Customer(data.getUserId(), data.getName(), data.getTypeUser(), followed);
         } else {
-            var sellerData = (SellerData) data;
-            var followers =  assemblesFollowingOrFollowersListOf(sellerData.getFollowers());
-            return new Seller(sellerData.getUserId(), sellerData.getName(), sellerData.getTypeUser(), followed, followers);
+            try {
+                var sellerData = (SellerData) data;
+                var followers =  assemblesFollowingOrFollowersListOf(sellerData.getFollowers());
+                return new Seller(sellerData.getUserId(), sellerData.getName(), sellerData.getTypeUser(), followed, followers);
+            } catch (ClassCastException ex) {
+                return new Customer(data.getUserId(), data.getName(), data.getTypeUser(), followed);
+            }
         }
     }
 

@@ -9,4 +9,6 @@ public interface PostGateway {
     public void registerNewPost(PostRequest request);
 
     public List<Post> getAllPostsByUserIdOnLastTwoWeeks(Integer userId);
+
+    public List<Post> getAllPromoPostsByUserId(Integer userId);
 }

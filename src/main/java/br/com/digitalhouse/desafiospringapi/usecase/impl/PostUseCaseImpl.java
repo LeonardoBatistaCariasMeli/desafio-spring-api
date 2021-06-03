@@ -2,11 +2,14 @@ package br.com.digitalhouse.desafiospringapi.usecase.impl;
 
 import br.com.digitalhouse.desafiospringapi.domain.entity.Post;
 import br.com.digitalhouse.desafiospringapi.domain.gateways.PostGateway;
+import br.com.digitalhouse.desafiospringapi.domain.gateways.UserGateway;
 import br.com.digitalhouse.desafiospringapi.usecase.PostUseCase;
 import br.com.digitalhouse.desafiospringapi.usecase.model.mapper.UserPostResponseMapper;
+import br.com.digitalhouse.desafiospringapi.usecase.model.mapper.UserPromoPostResponseMapper;
 import br.com.digitalhouse.desafiospringapi.usecase.model.request.GetPostRequest;
 import br.com.digitalhouse.desafiospringapi.usecase.model.request.PostRequest;
 import br.com.digitalhouse.desafiospringapi.usecase.model.response.UserPostResponse;
+import br.com.digitalhouse.desafiospringapi.usecase.model.response.UserPromoPostResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
@@ -16,9 +19,11 @@ import java.util.List;
 public class PostUseCaseImpl implements PostUseCase {
 
     private final PostGateway postGateway;
+    private final UserGateway userGateway;
 
-    public PostUseCaseImpl(PostGateway postGateway) {
+    public PostUseCaseImpl(PostGateway postGateway, UserGateway userGateway) {
         this.postGateway = postGateway;
+        this.userGateway = userGateway;
     }
 
     @Override
@@ -59,5 +64,24 @@ public class PostUseCaseImpl implements PostUseCase {
     @Override
     public void registerNewPromoPost(PostRequest request) {
         this.postGateway.registerNewPost(request);
+    }
+
+    @Override
+    public UserPromoPostResponse getQuantityOfAllPromoPostsByUserId(Integer userId) {
+        var posts = this.postGateway.getAllPromoPostsByUserId(userId);
+        this.addUserInPost(posts.get(0), userId);
+        return UserPromoPostResponseMapper.fromListPostForQuantity(posts);
+    }
+
+    @Override
+    public UserPromoPostResponse getAllPromoPostsByUserId(Integer userId) {
+        var posts = this.postGateway.getAllPromoPostsByUserId(userId);
+        this.addUserInPost(posts.get(0), userId);
+        return UserPromoPostResponseMapper.fromListPost(posts);
+    }
+
+    private void addUserInPost(Post post, Integer userId) {
+        var user = this.userGateway.getUserById(userId);
+        post.setUser(user);
     }
 }

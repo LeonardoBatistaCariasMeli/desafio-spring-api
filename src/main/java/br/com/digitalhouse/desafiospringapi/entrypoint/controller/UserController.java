@@ -1,7 +1,9 @@
 package br.com.digitalhouse.desafiospringapi.entrypoint.controller;
 
+import br.com.digitalhouse.desafiospringapi.usecase.PostUseCase;
 import br.com.digitalhouse.desafiospringapi.usecase.UserUseCase;
 import br.com.digitalhouse.desafiospringapi.usecase.model.request.UserRequest;
+import br.com.digitalhouse.desafiospringapi.usecase.model.response.UserPromoPostResponse;
 import br.com.digitalhouse.desafiospringapi.usecase.model.response.UserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +14,11 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserUseCase userUseCase;
+    private final PostUseCase postUseCase;
 
-    public UserController(UserUseCase userUseCase) {
+    public UserController(UserUseCase userUseCase, PostUseCase postUseCase) {
         this.userUseCase = userUseCase;
+        this.postUseCase = postUseCase;
     }
 
     @GetMapping("/{userId}")
@@ -60,6 +64,18 @@ public class UserController {
         var request = new UserRequest(userId, userIdToUnfollow);
         this.userUseCase.unfollowSeller(request);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{userId}/countPromos")
+    public ResponseEntity<UserPromoPostResponse> getQuantityOfAllPromoPostsByUserId(@PathVariable Integer userId) {
+        var response = this.postUseCase.getQuantityOfAllPromoPostsByUserId(userId);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/{userId}/posts")
+    public ResponseEntity<UserPromoPostResponse> getAllPromoPostsByUserId(@PathVariable Integer userId) {
+        var response = this.postUseCase.getAllPromoPostsByUserId(userId);
+        return ResponseEntity.ok().body(response);
     }
 
 }
