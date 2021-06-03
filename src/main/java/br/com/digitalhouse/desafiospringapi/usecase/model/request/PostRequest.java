@@ -1,6 +1,7 @@
 package br.com.digitalhouse.desafiospringapi.usecase.model.request;
 
 import br.com.digitalhouse.desafiospringapi.exceptions.DataIntegrityException;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -8,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 
 public class PostRequest implements Serializable {
     private static final long serialVersionUID = 1L;
+
     private static final DateTimeFormatter DATE_PATTERN = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     private Integer userId;
@@ -15,13 +17,17 @@ public class PostRequest implements Serializable {
     private ProductRequest detail;
     private Integer category;
     private Double price;
+    private Boolean hasPromo;
+    private Double discount;
 
-    public PostRequest(Integer userId, String date, ProductRequest detail, Integer category, Double price) {
+    public PostRequest(Integer userId, String date, ProductRequest detail, Integer category, Double price, Boolean hasPromo, Double discount) {
         this.userId = userId;
         this.date = this.convertToLocalDate(date);
         this.detail = detail;
         this.category = category;
         this.price = price;
+        this.hasPromo = hasPromo;
+        this.discount = discount;
     }
 
     private LocalDate convertToLocalDate(String date) {
@@ -71,5 +77,21 @@ public class PostRequest implements Serializable {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Boolean getHasPromo() {
+        return hasPromo;
+    }
+
+    public void setHasPromo(Boolean hasPromo) {
+        this.hasPromo = hasPromo;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
     }
 }

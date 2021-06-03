@@ -36,4 +36,9 @@ public class PostController {
         return ResponseEntity.ok().body(response);
     }
 
+    @PostMapping("/newpromopost")
+    public ResponseEntity<Void> registerNewPromoPost(@RequestBody PostRequest request) {
+        this.postUseCase.registerNewPost(request);
+        return ResponseEntity.created(URI.create("")).build();
+    }
 }

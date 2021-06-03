@@ -23,7 +23,7 @@ public interface PostMapper {
     static Post fromPostData(PostData data) {
         var product = ProductMapper.fromProductData(data.getProduct());
         var user = assembleUserOf(data.getUser());
-        return new Post(data.getPostId(), data.getDate(), data.getCategory(), data.getPrice(), product, user);
+        return new Post(data.getPostId(), data.getDate(), data.getCategory(), data.getPrice(), product, user, data.getHasPromo(), data.getDiscount());
     }
 
     static User assembleUserOf(UserData data) {

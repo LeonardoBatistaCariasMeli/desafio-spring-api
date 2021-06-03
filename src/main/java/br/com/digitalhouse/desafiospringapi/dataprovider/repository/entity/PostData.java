@@ -24,16 +24,21 @@ public class PostData {
     @JoinColumn(name = "user_id")
     private UserData user;
 
+    private Boolean hasPromo;
+    private Double discount;
+
     public PostData() {
     }
 
-    public PostData(Integer postId, LocalDate date, Integer category, Double price, ProductData product, UserData user) {
+    public PostData(Integer postId, LocalDate date, Integer category, Double price, ProductData product, UserData user, Boolean hasPromo, Double discount) {
         this.postId = postId;
         this.date = date;
         this.category = category;
         this.price = price;
         this.product = product;
         this.user = user;
+        this.hasPromo = hasPromo;
+        this.discount = discount;
     }
 
     public Integer getPostId() {
@@ -82,5 +87,21 @@ public class PostData {
 
     public void setUser(UserData user) {
         this.user = user;
+    }
+
+    public Boolean getHasPromo() {
+        return hasPromo;
+    }
+
+    public void setHasPromo(Boolean hasPromo) {
+        this.hasPromo = hasPromo;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
     }
 }

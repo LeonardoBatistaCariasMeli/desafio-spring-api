@@ -10,4 +10,6 @@ public interface PostUseCase {
     public UserPostResponse getAllPostsByUserIdOnLastTwoWeeks(Integer userId);
 
     public UserPostResponse getAllPostsByUserIdOnLastTwoWeeksOrderBy(GetPostRequest request);
+
+    public void registerNewPromoPost(PostRequest request);
 }

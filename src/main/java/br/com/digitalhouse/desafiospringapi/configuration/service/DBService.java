@@ -1,13 +1,16 @@
 package br.com.digitalhouse.desafiospringapi.configuration.service;
 
-import br.com.digitalhouse.desafiospringapi.dataprovider.repository.*;
-import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.*;
-import br.com.digitalhouse.desafiospringapi.domain.entity.Post;
+import br.com.digitalhouse.desafiospringapi.dataprovider.repository.PostRepository;
+import br.com.digitalhouse.desafiospringapi.dataprovider.repository.ProductRepository;
+import br.com.digitalhouse.desafiospringapi.dataprovider.repository.UserRepository;
+import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.CustomerData;
+import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.PostData;
+import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.ProductData;
+import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.SellerData;
 import br.com.digitalhouse.desafiospringapi.domain.entity.enums.TypeUser;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 @Service
@@ -40,7 +43,7 @@ public class DBService {
         var customer2 = new CustomerData(null, "Gustavo", TypeUser.BUYER);
         this.userRepository.saveAll(Arrays.asList(customer, customer2));
 
-        var post = new PostData(null, LocalDate.now(), 50, 1000.00, product2, seller);
+        var post = new PostData(null, LocalDate.now(), 50, 1000.00, product2, seller, false, null);
         this.postRepository.save(post);
     }
 }

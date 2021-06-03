@@ -12,7 +12,6 @@ import br.com.digitalhouse.desafiospringapi.domain.gateways.PostGateway;
 import br.com.digitalhouse.desafiospringapi.exceptions.DataIntegrityException;
 import br.com.digitalhouse.desafiospringapi.exceptions.ObjectNotFoundException;
 import br.com.digitalhouse.desafiospringapi.usecase.model.request.PostRequest;
-import br.com.digitalhouse.desafiospringapi.usecase.model.request.ProductRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -43,13 +42,14 @@ public class PostDataProvider implements PostGateway {
     private PostData assemblePostDataOf(PostRequest request) {
         var product = this.getProductById(request);
         var user = this.getUserById(request.getUserId());
-        return new PostData(null, request.getDate(), request.getCategory(), request.getPrice(), product, user);
+        var hasPromo = request.getHasPromo() == null ? false : true;
+        return new PostData(null, request.getDate(), request.getCategory(), request.getPrice(), product, user, hasPromo, request.getDiscount());
     }
 
     private ProductData getProductById(PostRequest request) {
         var product = this.productRepository.findByProductIdAndUserUserId(request.getDetail().getProductId(), request.getUserId());
 
-        if(product == null)
+        if (product == null)
             throw new ObjectNotFoundException("The user does not have this product");
         return product;
     }
@@ -66,11 +66,10 @@ public class PostDataProvider implements PostGateway {
         var twoWeeksAgo = now.minusWeeks(2);
         var posts = this.postRepository.getAllPostsByUserIdOnLastTwoWeeks(twoWeeksAgo, now, userId);
 
-        if(posts == null || posts.isEmpty()) {
+        if (posts == null || posts.isEmpty()) {
             throw new ObjectNotFoundException("This seller don't hava any post");
         }
 
         return PostMapper.fromListPostData(posts);
     }
-
 }

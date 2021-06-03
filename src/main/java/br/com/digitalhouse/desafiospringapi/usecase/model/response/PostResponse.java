@@ -1,7 +1,8 @@
 package br.com.digitalhouse.desafiospringapi.usecase.model.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -14,12 +15,19 @@ public class PostResponse implements Serializable {
     private Integer category;
     private Double price;
 
-    public PostResponse(Integer postId, LocalDate date, ProductResponse detail, Integer category, Double price) {
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean hasPromo;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double discount;
+
+    public PostResponse(Integer postId, LocalDate date, ProductResponse detail, Integer category, Double price, Boolean hasPromo, Double discount) {
         this.postId = postId;
+        convertDate(date);
         this.detail = detail;
         this.category = category;
         this.price = price;
-        convertDate(date);
+        this.hasPromo = hasPromo;
+        this.discount = discount;
     }
 
     private void convertDate(LocalDate localDate) {
@@ -46,5 +54,13 @@ public class PostResponse implements Serializable {
 
     public ProductResponse getDetail() {
         return detail;
+    }
+
+    public Boolean getHasPromo() {
+        return hasPromo;
+    }
+
+    public Double getDiscount() {
+        return discount;
     }
 }

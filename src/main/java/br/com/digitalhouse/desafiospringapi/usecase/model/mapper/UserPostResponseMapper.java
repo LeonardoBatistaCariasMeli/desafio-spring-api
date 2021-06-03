@@ -34,7 +34,8 @@ public interface UserPostResponseMapper {
 
     static PostResponse fromPost(Post post) {
         var product = fromProduct(post.getDetail());
-        return new PostResponse(post.getPostId(), post.getDate(), product, post.getCategory(), post.getPrice());
+        var hasPromo = post.getHasPromo() ? true : null;
+        return new PostResponse(post.getPostId(), post.getDate(), product, post.getCategory(), post.getPrice(), hasPromo, post.getDiscount());
     }
 
     static ProductResponse fromProduct(Product product) {
