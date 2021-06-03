@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<PostData, Integer> {
 
-    @Query("SELECT p FROM PostData p WHERE p.date BETWEEN ?1 AND ?2 AND p.user.userId = ?3")
+    @Query("SELECT p FROM PostData p WHERE p.date BETWEEN ?1 AND ?2 AND p.user.userId = ?3 ORDER BY p.date DESC")
     public List<PostData> getAllPostsByUserIdOnLastTwoWeeks(LocalDate twoWeeksAgo, LocalDate now, Integer userId);
 
 }

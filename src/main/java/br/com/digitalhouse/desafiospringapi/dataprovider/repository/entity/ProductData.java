@@ -18,20 +18,21 @@ public class ProductData {
     private String notes;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserData user;
 
     public ProductData() {
     }
 
-    public ProductData(Integer productId, String productName, Integer type, String brand, String color, String notes) {
+    public ProductData(Integer productId, String productName, Integer type, String brand, String color, String notes, UserData user) {
         this.productId = productId;
         this.productName = productName;
         this.type = type;
         this.brand = brand;
         this.color = color;
         this.notes = notes;
+        this.user = user;
     }
 
     public Integer getProductId() {

@@ -38,8 +38,14 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/followers/list")
-    public ResponseEntity<UserResponse> getAllUsersFollowSeller(@PathVariable Integer userId) {
-        var response = this.userUseCase.getAllUsersFollowSeller(userId);
+    public ResponseEntity<UserResponse> getAllUsersFollowSeller(@PathVariable Integer userId, @RequestParam(required = false) String order) {
+        UserResponse response = null;
+        if (order == null) {
+            response = this.userUseCase.getAllUsersFollowSeller(userId);
+        } else {
+            response = this.userUseCase.getAllUsersFollowSellerOrderBy(userId, order);
+        }
+
         return ResponseEntity.ok().body(response);
     }
 
@@ -55,4 +61,5 @@ public class UserController {
         this.userUseCase.unfollowSeller(request);
         return ResponseEntity.noContent().build();
     }
+
 }

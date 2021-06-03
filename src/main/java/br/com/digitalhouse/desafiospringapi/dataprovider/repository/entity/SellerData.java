@@ -1,6 +1,8 @@
 package br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity;
 
 import br.com.digitalhouse.desafiospringapi.domain.entity.enums.TypeUser;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,27 +11,24 @@ import java.util.List;
 @Entity(name = "SELLER")
 public class SellerData extends UserData {
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "USER_FOLLOWED",
             joinColumns = @JoinColumn(name = "userFollowId"),
             inverseJoinColumns = @JoinColumn(name = "userId")
     )
     private List<UserData> followers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ProductData> products = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<PostData> posts = new ArrayList<>();
 
     public SellerData() {
     }
 
-    public SellerData(Integer userId, String name, TypeUser typeUser, List<UserData> followed, List<UserData> followers, List<ProductData> products, List<PostData> posts) {
-        super(userId, name, typeUser, followed);
-        this.followers = followers;
-        this.products = products;
-        this.posts = posts;
+    public SellerData(Integer userId, String name, TypeUser typeUser) {
+        super(userId, name, typeUser);
     }
 
     public List<UserData> getFollowers() {

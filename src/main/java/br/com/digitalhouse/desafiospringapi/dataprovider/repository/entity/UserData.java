@@ -17,7 +17,7 @@ public abstract class UserData {
     private String name;
     private Integer typeUser;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "USER_FOLLOWED",
             joinColumns = @JoinColumn(name = "userId"),
             inverseJoinColumns = @JoinColumn(name = "userFollowId")
@@ -27,11 +27,10 @@ public abstract class UserData {
     public UserData() {
     }
 
-    public UserData(Integer userId, String name, TypeUser typeUser, List<UserData> followed) {
+    public UserData(Integer userId, String name, TypeUser typeUser) {
         this.userId = userId;
         this.name = name;
         this.typeUser = (typeUser == null) ? null : typeUser.getCode();
-        this.followed = followed;
     }
 
     public Integer getUserId() {
