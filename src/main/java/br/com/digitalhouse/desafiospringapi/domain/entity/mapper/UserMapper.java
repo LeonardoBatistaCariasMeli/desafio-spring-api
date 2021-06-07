@@ -13,29 +13,25 @@ import java.util.stream.Collectors;
 public interface UserMapper {
 
     static User fromUserData(UserData data) {
-        var followed =  assemblesFollowingOrFollowersListOf(data.getFollowed());
-        if(data.getClass().getSimpleName().contains("Customer")) {
+        var followed = assemblesFollowingOrFollowersListOf(data.getFollowed());
+        if (data.getClass().getSimpleName().contains("Customer")) {
             return new Customer(data.getUserId(), data.getName(), data.getTypeUser(), followed);
         } else {
-            try {
-                var sellerData = (SellerData) data;
-                var followers =  assemblesFollowingOrFollowersListOf(sellerData.getFollowers());
-                return new Seller(sellerData.getUserId(), sellerData.getName(), sellerData.getTypeUser(), followed, followers);
-            } catch (ClassCastException ex) {
-                return new Customer(data.getUserId(), data.getName(), data.getTypeUser(), followed);
-            }
+            var sellerData = (SellerData) data;
+            var followers = assemblesFollowingOrFollowersListOf(sellerData.getFollowers());
+            return new Seller(sellerData.getUserId(), sellerData.getName(), sellerData.getTypeUser(), followed, followers);
         }
     }
 
     static List<User> assemblesFollowingOrFollowersListOf(List<UserData> listData) {
-        if(listData.isEmpty()) {
+        if (listData.isEmpty()) {
             return new ArrayList<>();
         }
         return listData.stream().map(UserMapper::assemblesFollowingOrFollowersOf).collect(Collectors.toList());
     }
 
     static User assemblesFollowingOrFollowersOf(UserData data) {
-        if(data.getClass().getSimpleName().contains("Customer")) {
+        if (data.getClass().getSimpleName().contains("Customer")) {
             return new Customer(data.getUserId(), data.getName(), data.getTypeUser(), new ArrayList<>());
         } else {
             return new Seller(data.getUserId(), data.getName(), data.getTypeUser(), new ArrayList<>(), new ArrayList<>());

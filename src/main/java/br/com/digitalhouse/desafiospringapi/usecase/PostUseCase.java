@@ -8,9 +8,9 @@ import br.com.digitalhouse.desafiospringapi.usecase.model.response.UserPromoPost
 public interface PostUseCase {
     public void registerNewPost(PostRequest request);
 
-    public UserPostResponse getAllPostsByUserIdOnLastTwoWeeks(Integer userId);
+    public UserPostResponse getAllPostsOfSellersFollowedByUserIdOnLastTwoWeeks(Integer userId);
 
-    public UserPostResponse getAllPostsByUserIdOnLastTwoWeeksOrderBy(GetPostRequest request);
+    public UserPostResponse getAllPostsOfSellersFollowedByUserIdOnLastTwoWeeksOrderBy(GetPostRequest request);
 
     public void registerNewPromoPost(PostRequest request);
 

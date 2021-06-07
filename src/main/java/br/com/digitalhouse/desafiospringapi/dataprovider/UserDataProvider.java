@@ -44,12 +44,18 @@ public class UserDataProvider implements UserGateway {
 
     private void follow(UserRequest request) {
         var user = this.findUserById(request.getUserId());
-        var userFollow = this.findSellerByUserId(request.getSellerId());
+        var userFollow = this.findSeller(request.getSellerId());
         user.addNewFollow(userFollow);
         this.userRepository.save(user);
     }
 
-    private UserData findSellerByUserId(Integer userId) {
+    @Override
+    public User findSellerByUserId(Integer userId) {
+        var data = this.findSeller(userId);
+        return UserMapper.fromUserData(data);
+    }
+
+    public UserData findSeller(Integer userId) {
         var user = this.userRepository.findByUserIdAndTypeUser(userId, TypeUser.SELLER.getCode());
         if (user.isEmpty())
             throw new ObjectNotFoundException("The seller not exists. Id: " + userId);
@@ -60,7 +66,7 @@ public class UserDataProvider implements UserGateway {
 
     @Override
     public User getAllUsersFollowSeller(Integer userId) {
-        var data = this.findSellerByUserId(userId);
+        var data = this.findSeller(userId);
 
         return UserMapper.fromUserData(data);
     }

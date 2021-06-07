@@ -18,4 +18,6 @@ public interface UserUseCase {
     public void unfollowSeller(UserRequest request);
 
     public UserResponse getAllUsersFollowSellerOrderBy(Integer userId, String order);
+
+    public UserResponse getAllSellersThatAnUserFollowOrderBy(Integer userId, String order);
 }

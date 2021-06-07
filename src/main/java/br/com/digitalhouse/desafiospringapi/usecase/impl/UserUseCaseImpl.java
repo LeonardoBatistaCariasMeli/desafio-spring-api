@@ -35,7 +35,7 @@ public class UserUseCaseImpl implements UserUseCase {
 
     @Override
     public SellerResponse getQuantityUsersFollowSeller(Integer userId) {
-        var user = this.userGateway.getUserById(userId);
+        var user = this.userGateway.findSellerByUserId(userId);
         return (SellerResponse) UserResponseMapper.fromUserForQuantityUsersFollow(user);
     }
 
@@ -59,25 +59,32 @@ public class UserUseCaseImpl implements UserUseCase {
     @Override
     public UserResponse getAllUsersFollowSellerOrderBy(Integer userId, String order) {
         var user = this.userGateway.getAllUsersFollowSeller(userId);
-        this.orderBy(order, user);
+        var seller = (Seller) user;
+        this.orderBy(order, seller.getFollowers());
         return UserResponseMapper.fromUserForAllUsersFollowSeller(user);
     }
 
-    private void orderBy(String order, User user) {
-        var seller = (Seller) user;
+    @Override
+    public UserResponse getAllSellersThatAnUserFollowOrderBy(Integer userId, String order) {
+        var user = this.userGateway.getUserById(userId);
+        this.orderBy(order, user.getFollowed());
+        return UserResponseMapper.fromUserForAllSellersThatAnUserFollow(user);
+    }
+
+    private void orderBy(String order, List<User> list) {
         if (order.toLowerCase().equals("name_asc")) {
-            this.ascending(seller.getFollowers());
+            this.ascending(list);
         } else if (order.toLowerCase().equals("name_desc")) {
-            this.descending(seller.getFollowers());
+            this.descending(list);
         }
     }
 
-    private void ascending(List<User> followers) {
-        followers.sort(Comparator.comparing(User::getName));
+    private void ascending(List<User> list) {
+        list.sort(Comparator.comparing(User::getName));
     }
 
-    private void descending(List<User> followers) {
-        followers.sort(Comparator.comparing(User::getName).reversed());
+    private void descending(List<User> list) {
+        list.sort(Comparator.comparing(User::getName).reversed());
     }
 
 }

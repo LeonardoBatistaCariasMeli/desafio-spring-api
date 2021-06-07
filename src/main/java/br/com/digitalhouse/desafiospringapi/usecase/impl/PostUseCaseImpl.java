@@ -32,17 +32,17 @@ public class PostUseCaseImpl implements PostUseCase {
     }
 
     @Override
-    public UserPostResponse getAllPostsByUserIdOnLastTwoWeeks(Integer userId) {
-        var post = this.postGateway.getAllPostsByUserIdOnLastTwoWeeks(userId);
+    public UserPostResponse getAllPostsOfSellersFollowedByUserIdOnLastTwoWeeks(Integer userId) {
+        var post = this.postGateway.getAllPostsOfSellersFollowedByUserIdOnLastTwoWeeks(userId);
 
-        return UserPostResponseMapper.toUserPostResponseOf(post);
+        return UserPostResponseMapper.toUserPostResponseOf(userId, post);
     }
 
     @Override
-    public UserPostResponse getAllPostsByUserIdOnLastTwoWeeksOrderBy(GetPostRequest request) {
-        var posts = this.postGateway.getAllPostsByUserIdOnLastTwoWeeks(request.getPostId());
+    public UserPostResponse getAllPostsOfSellersFollowedByUserIdOnLastTwoWeeksOrderBy(GetPostRequest request) {
+        var posts = this.postGateway.getAllPostsOfSellersFollowedByUserIdOnLastTwoWeeks(request.getUserId());
         this.orderBy(request.getOrder(), posts);
-        return UserPostResponseMapper.toUserPostResponseOf(posts);
+        return UserPostResponseMapper.toUserPostResponseOf(request.getUserId(), posts);
     }
 
     private void orderBy(String order, List<Post> posts) {

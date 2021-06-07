@@ -13,15 +13,10 @@ import java.util.stream.Collectors;
 
 public interface UserPostResponseMapper {
 
-    static UserPostResponse toUserPostResponseOf(List<Post> posts) {
+    static UserPostResponse toUserPostResponseOf(Integer userId, List<Post> posts) {
         var postsResponse = fromListPost(posts);
-        var userId = getIdUser(posts.get(0).getUser());
 
         return new UserPostResponse(userId, postsResponse);
-    }
-
-    public static Integer getIdUser(User user) {
-        return user.getUserId();
     }
 
     static List<PostResponse> fromListPost(List<Post> posts) {

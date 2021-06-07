@@ -51,12 +51,12 @@
 					"response": []
 				},
 				{
-					"name": "/users/{userId}/posts",
+					"name": "/users/{userId}/promoPosts",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/users/1/posts",
+							"raw": "http://localhost:8080/users/1/promoPosts",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -65,7 +65,7 @@
 							"path": [
 								"users",
 								"1",
-								"posts"
+								"promoPosts"
 							]
 						}
 					},
@@ -187,6 +187,28 @@
 					"response": []
 				},
 				{
+					"name": "/users/{userId}/followed/list?order=",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/5/followed/list",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"5",
+								"followed",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/{userId}/follow/{userIdToFollow}",
 					"request": {
 						"method": "POST",
@@ -214,7 +236,7 @@
 			"name": "Post",
 			"item": [
 				{
-					"name": "/posts",
+					"name": "followed/userId/posts",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -247,7 +269,7 @@
 					"response": []
 				},
 				{
-					"name": "/posts?order=",
+					"name": "followed/userId/posts?order=",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -264,7 +286,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/followed/1/posts?order=name_asc",
+							"raw": "http://localhost:8080/followed/4/posts?order=name_asc",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -272,7 +294,7 @@
 							"port": "8080",
 							"path": [
 								"followed",
-								"1",
+								"4",
 								"posts"
 							],
 							"query": [

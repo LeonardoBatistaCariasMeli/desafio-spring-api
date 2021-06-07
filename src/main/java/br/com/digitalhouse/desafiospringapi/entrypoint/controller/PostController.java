@@ -28,10 +28,10 @@ public class PostController {
     public ResponseEntity<UserPostResponse> getAllPostsByUserIdOnLastTwoWeeks(@PathVariable Integer userId, @RequestParam(required = false) String order) {
         UserPostResponse response = null;
         if (order == null) {
-            response = this.postUseCase.getAllPostsByUserIdOnLastTwoWeeks(userId);
+            response = this.postUseCase.getAllPostsOfSellersFollowedByUserIdOnLastTwoWeeks(userId);
         } else {
             var request = new GetPostRequest(userId, order);
-            response = this.postUseCase.getAllPostsByUserIdOnLastTwoWeeksOrderBy(request);
+            response = this.postUseCase.getAllPostsOfSellersFollowedByUserIdOnLastTwoWeeksOrderBy(request);
         }
         return ResponseEntity.ok().body(response);
     }

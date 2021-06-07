@@ -5,20 +5,20 @@ import java.io.Serializable;
 public class GetPostRequest implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final Integer postId;
+    private final Integer userId;
     private String order;
 
-    public GetPostRequest(Integer postId) {
-        this.postId = postId;
+    public GetPostRequest(Integer userId) {
+        this.userId = userId;
     }
 
-    public GetPostRequest(Integer postId, String order) {
-        this.postId = postId;
+    public GetPostRequest(Integer userId, String order) {
+        this.userId = userId;
         this.order = order;
     }
 
-    public Integer getPostId() {
-        return postId;
+    public Integer getUserId() {
+        return userId;
     }
 
     public String getOrder() {

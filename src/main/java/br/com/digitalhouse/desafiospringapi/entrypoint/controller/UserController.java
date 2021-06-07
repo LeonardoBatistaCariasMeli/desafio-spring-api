@@ -54,8 +54,13 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/followed/list")
-    public ResponseEntity<UserResponse> getAllSellersThatAnUserFollow(@PathVariable Integer userId) {
-        var response = this.userUseCase.getAllSellersThatAnUserFollow(userId);
+    public ResponseEntity<UserResponse> getAllSellersThatAnUserFollow(@PathVariable Integer userId, @RequestParam(required = false) String order) {
+        UserResponse response = null;
+        if (order == null) {
+            response =  this.userUseCase.getAllSellersThatAnUserFollow(userId);
+        } else {
+            response =  this.userUseCase.getAllSellersThatAnUserFollowOrderBy(userId, order);
+        }
         return ResponseEntity.ok().body(response);
     }
 
@@ -72,7 +77,7 @@ public class UserController {
         return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping("/{userId}/posts")
+    @GetMapping("/{userId}/promoPosts")
     public ResponseEntity<UserPromoPostResponse> getAllPromoPostsByUserId(@PathVariable Integer userId) {
         var response = this.postUseCase.getAllPromoPostsByUserId(userId);
         return ResponseEntity.ok().body(response);

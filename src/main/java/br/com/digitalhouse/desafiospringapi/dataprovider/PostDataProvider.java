@@ -15,7 +15,9 @@ import br.com.digitalhouse.desafiospringapi.usecase.model.request.PostRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostDataProvider implements PostGateway {
@@ -56,20 +58,32 @@ public class PostDataProvider implements PostGateway {
 
     private UserData getUserById(Integer userId) {
         var user = this.userRepository.findById(userId);
+
+        if(user.isEmpty())
+            throw new ObjectNotFoundException("This user not exists.");
         return user.get();
     }
 
     @Override
-    public List<Post> getAllPostsByUserIdOnLastTwoWeeks(Integer userId) {
-        var now = LocalDate.now();
-        var twoWeeksAgo = now.minusWeeks(2);
-        var posts = this.postRepository.getAllPostsByUserIdOnLastTwoWeeks(twoWeeksAgo, now, userId);
+    public List<Post> getAllPostsOfSellersFollowedByUserIdOnLastTwoWeeks(Integer userId) {
+        var user = this.getUserById(userId);
 
-        if (posts == null || posts.isEmpty()) {
-            throw new ObjectNotFoundException("This seller don't have any post");
-        }
+        var posts = new ArrayList<PostData>();
+        user.getFollowed().stream().forEach(f -> {
+            var p = this.findPostsOnLastTwoWeeks(f.getUserId());
+            posts.addAll(p);
+        });
+
+        if(posts.isEmpty())
+            throw new ObjectNotFoundException("The sellers if your follow don't have any post on last two weeks");
 
         return PostMapper.fromListPostData(posts);
+    }
+
+    private List<PostData> findPostsOnLastTwoWeeks(Integer userId) {
+        var now = LocalDate.now();
+        var twoWeeksAgo = now.minusWeeks(2);
+        return this.postRepository.getAllPostsOfSellersFollowedByUserIdOnLastTwoWeeks(twoWeeksAgo, now, userId);
     }
 
     @Override
