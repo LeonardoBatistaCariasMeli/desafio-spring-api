@@ -94,6 +94,8 @@
   </br> Obtenção da lista todos os vendedores que seguem um determinado usuário segue. 
     * **URL Params - Required:** <br />
       * `userId=[integer]`: id do usuário que está fazendo a requisição. Exemplo: 1, 2, 3...<br />
+    * **Quuery Params - Not Required:** <br />
+      * `order=[String]`: Metodo de ordenação que deseja. Exemplo: name_asc e name_desc<br />
     * **Success Response** <br />
       * Code: 200 - OK 
       ```json
@@ -150,9 +152,11 @@
        ```
 
 * **GET /followed/{userId}/posts**
-  </br> Obtenção da lista todos os vendedores que seguem um determinado usuário segue. 
+  </br> Obtenção da lista todos os posts de vendedores que seguem um determinado usuário segue, nas ultimas duas semanas. 
     * **URL Params - Required:** <br />
       * `userId=[integer]`: id do usuário que está fazendo a requisição. Exemplo: 1, 2, 3...<br />
+    * **Quuery Params - Not Required:** <br />
+      * `order=[String]`: Metodo de ordenação que deseja. Exemplo: name_asc e name_desc<br />
     * **Success Response** <br />
       * Code: 200 - OK 
       ```json
@@ -220,5 +224,103 @@
             "error": "Integrity data",
             "message": "This message can be alterned by multiples errors",
             "path": "/users/4/unfollow/2"
+         }
+       ```
+
+* **POST /newpromopost**
+  </br> Cadastrar uma nova publicação promocional. (Apenas vendedores podem fazer isso).
+    * **Payload - Required:** <br />
+      * Examplo de payload válido: 
+      ```json
+        {
+          "userId": 1,
+          "date": "22-05-2021",
+          "detail": {
+              "productId": 2
+          },
+          "category": 100,
+          "price": 1500.50
+          "hasPromo": true, 
+          "discount": 0.25
+        }
+       ```
+    * **Success Response** <br />
+      * Code: 201 - Created 
+    * **Error Respons** <br />
+       * Code: 400 - BAD REQUEST
+       ```json
+        {
+            "timeStamp": 1623084296702,
+            "status": 400,
+            "error": "Integrity data",
+            "message": "This message can be alterned by multiples errors",
+            "path": "/newpromopost"
+         }
+       ```
+       
+* **GET /users/{userId}/countPromos**
+  </br> Obtenção da quantidade de produtos promocionais de um determinado vendedor. 
+    * **URL Params - Required:** <br />
+      * `userId=[integer]`: id do usuário que está fazendo a requisição. Exemplo: 1, 2, 3...<br />
+    * **Success Response** <br />
+      * Code: 200 - OK 
+      ```json
+        {
+          "userId": 1,
+          "username": "Leonardo",
+          "promoproductsCount": 1
+        }
+       ```
+    * **Error Respons** <br />
+       * Code: 400 - BAD REQUEST
+       ```json
+        {
+            "timeStamp": 1623084296702,
+            "status": 400,
+            "error": "Integrity data",
+            "message": "This message can be alterned by multiples errors",
+            "path": "/users/2/countPromos"
+         }
+       ```
+       
+* **GET /users/{userId}/promoPost**
+  </br> Obtenção da lista todos os posts de vendedores que seguem um determinado usuário segue, nas ultimas duas semanas. 
+    * **URL Params - Required:** <br />
+      * `userId=[integer]`: id do usuário que deverá ser buscado os posts promocionais. Exemplo: 1, 2, 3...<br />
+    * **Success Response** <br />
+      * Code: 200 - OK 
+      ```json
+        {
+            "userId": 1,
+            "username": "Leonardo",
+            "posts": [
+                {
+                    "postId": 2,
+                    "date": "07-06-2021",
+                    "detail": {
+                        "productId": 2,
+                        "productName": "Mesa de escritório",
+                        "type": "STANDARD",
+                        "brand": "Tok Stok",
+                        "color": "Marrom",
+                        "notes": "Mesa de escritório nova e de muita qualidade"
+                    },
+                    "category": 2,
+                    "price": 400.0,
+                    "hasPromo": true,
+                    "discount": 0.25
+                }
+            ]
+          }
+       ```
+    * **Error Respons** <br />
+       * Code: 400 - BAD REQUEST
+       ```json
+        {
+            "timeStamp": 1623084296702,
+            "status": 400,
+            "error": "Integrity data",
+            "message": "This message can be alterned by multiples errors",
+            "path": "/users/1/promoPosts"
          }
        ```
