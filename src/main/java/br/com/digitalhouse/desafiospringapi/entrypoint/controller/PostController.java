@@ -27,7 +27,7 @@ public class PostController {
     @GetMapping("/followed/{userId}/posts")
     public ResponseEntity<UserPostResponse> getAllPostsByUserIdOnLastTwoWeeks(@PathVariable Integer userId, @RequestParam(required = false) String order) {
         UserPostResponse response = null;
-        if(order == null) {
+        if (order == null) {
             response = this.postUseCase.getAllPostsByUserIdOnLastTwoWeeks(userId);
         } else {
             var request = new GetPostRequest(userId, order);

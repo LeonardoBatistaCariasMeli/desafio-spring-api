@@ -5,7 +5,8 @@ import br.com.digitalhouse.desafiospringapi.exceptions.ObjectNotFoundException;
 public enum TypeProduct {
 
     GAMER(1, "Gamer"),
-    Standard(2, "Standard");
+    STANDARD(2, "Standard"),
+    LUXURIOUS(3, "Luxurious");
 
     private int code;
     private String description;
