@@ -7,6 +7,7 @@ import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.PostD
 import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.ProductData;
 import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.UserData;
 import br.com.digitalhouse.desafiospringapi.domain.entity.Post;
+import br.com.digitalhouse.desafiospringapi.domain.entity.enums.TypeUser;
 import br.com.digitalhouse.desafiospringapi.domain.entity.mapper.PostMapper;
 import br.com.digitalhouse.desafiospringapi.domain.gateways.PostGateway;
 import br.com.digitalhouse.desafiospringapi.exceptions.DataIntegrityException;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PostDataProvider implements PostGateway {
@@ -25,11 +25,13 @@ public class PostDataProvider implements PostGateway {
     private final PostRepository postRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final UserDataProvider userDataProvider;
 
-    public PostDataProvider(PostRepository postRepository, ProductRepository productRepository, UserRepository userRepository) {
+    public PostDataProvider(PostRepository postRepository, ProductRepository productRepository, UserRepository userRepository, UserDataProvider userDataProvider) {
         this.postRepository = postRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
+        this.userDataProvider = userDataProvider;
     }
 
     @Override
@@ -42,8 +44,8 @@ public class PostDataProvider implements PostGateway {
     }
 
     private PostData assemblePostDataOf(PostRequest request) {
+        var user = this.getSeller(request.getUserId());
         var product = this.getProductById(request);
-        var user = this.getUserById(request.getUserId());
         var hasPromo = request.getHasPromo() == null ? false : true;
         return new PostData(null, request.getDate(), request.getCategory(), request.getPrice(), product, user, hasPromo, request.getDiscount());
     }
@@ -56,11 +58,11 @@ public class PostDataProvider implements PostGateway {
         return product;
     }
 
-    private UserData getUserById(Integer userId) {
-        var user = this.userRepository.findById(userId);
+    private UserData getSeller(Integer userId) {
+        var user = this.userRepository.findByUserIdAndTypeUser(userId, TypeUser.SELLER.getCode());
 
-        if(user.isEmpty())
-            throw new ObjectNotFoundException("This user not exists.");
+        if (user.isEmpty())
+            throw new ObjectNotFoundException("This seller not exists.");
         return user.get();
     }
 
@@ -74,10 +76,18 @@ public class PostDataProvider implements PostGateway {
             posts.addAll(p);
         });
 
-        if(posts.isEmpty())
+        if (posts.isEmpty())
             throw new ObjectNotFoundException("The sellers if your follow don't have any post on last two weeks");
 
         return PostMapper.fromListPostData(posts);
+    }
+
+    private UserData getUserById(Integer userId) {
+        var user = this.userRepository.findById(userId);
+
+        if (user.isEmpty())
+            throw new ObjectNotFoundException("This user not exists.");
+        return user.get();
     }
 
     private List<PostData> findPostsOnLastTwoWeeks(Integer userId) {
@@ -88,8 +98,9 @@ public class PostDataProvider implements PostGateway {
 
     @Override
     public List<Post> getAllPromoPostsByUserId(Integer userId) {
+        this.userDataProvider.findSellerByUserId(userId);
         var posts = this.postRepository.findByHasPromoAndUserUserId(true, userId);
-        if(posts == null || posts.isEmpty())
+        if (posts == null || posts.isEmpty())
             throw new ObjectNotFoundException("This seller don't have any post");
         return PostMapper.fromListPostData(posts);
     }

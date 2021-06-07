@@ -81,7 +81,7 @@ public class PostUseCaseImpl implements PostUseCase {
     }
 
     private void addUserInPost(Post post, Integer userId) {
-        var user = this.userGateway.getUserById(userId);
+        var user = this.userGateway.findSellerByUserId(userId);
         post.setUser(user);
     }
 }
