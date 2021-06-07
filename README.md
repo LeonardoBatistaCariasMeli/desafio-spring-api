@@ -8,7 +8,9 @@
   <p align="justify"> Como solução, foi desenvolvido uma API em Java utilizando o paradigma de Orientação a Objetos e suas boas práticas, além de, a utilização do framework Spring para o desenvolvimento do mesmo.</p>
   
 # Utilização da API
-  O arquivo `desafio-spring.postman_collection-example.json`, referente a collection criada e utilizada no Postman, foi disponibilizado para maior facilidade, possuindo já a implementação das chamadas aos endpoints.
+  Primeiro baixe a aplicação utilizando o menu superior para download do ZIP ou via git utilizando o comendo `git clone git@github.com:LeonardoBatistaCariasMeli/desafio-spring-api.git`. <br />
+  Após isso utilize de alguma IDE para a execução da aplicação como: STS, Eclipse, IntelliJ e etc.
+  O arquivo `desafio-spring.postman_collection-example.json`, referente a collection criada e utilizada no Postman, foi disponibilizado para maior facilidade, possuindo já a implementação das chamadas aos endpoints com dados válidos.
 
 ##   endpoints
 * **POST /{userId}/follow/{userIdToFollow}**
