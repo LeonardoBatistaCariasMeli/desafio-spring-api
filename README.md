@@ -8,9 +8,15 @@
   <p align="justify"> Como solução, foi desenvolvido uma API em Java utilizando o paradigma de Orientação a Objetos e suas boas práticas, além de, a utilização do framework Spring para o desenvolvimento do mesmo.</p>
   
 # Utilização da API
-  Primeiro baixe a aplicação utilizando o menu superior para download do ZIP ou via git utilizando o comendo `git clone git@github.com:LeonardoBatistaCariasMeli/desafio-spring-api.git`. <br />
-  Após isso utilize de alguma IDE para a execução da aplicação como: STS, Eclipse, IntelliJ e etc.
-  O arquivo `desafio-spring.postman_collection-example.json`, referente a collection criada e utilizada no Postman, foi disponibilizado para maior facilidade, possuindo já a implementação das chamadas aos endpoints com dados válidos.
+  Primeiro baixe a aplicação utilizando o menu superior para download do ZIP ou via git utilizando o comendo `git clone git@github.com:LeonardoBatistaCariasMeli/desafio-spring-api.git`. <br /><br />
+  
+  Após isso utilize de alguma IDE para a execução da aplicação como: STS, Eclipse, IntelliJ e etc. <br /><br />
+  
+  O arquivo `desafio-spring.postman_collection-example.json`, referente a collection criada e utilizada no Postman, foi disponibilizado para maior facilidade, possuindo já a implementação das chamadas aos endpoints com dados válidos. <br /><br />
+  
+  As requisições deveram ser feitas a partir de `http://localhost:8080`. <br /><br />
+  
+  Como auxilio foi utilizado o banco em memória H2 Data Base (caso queira acessar o endereço é: `http://localhost:8080/h2-console`), onde para acessar é necessário entrar no endereço disponibilizado e preencher o formulário com base nas informações presentes em `application.properties`. Foi criado massas de dados pré definidas para facil utilização.
 
 ##   endpoints
 * **POST /{userId}/follow/{userIdToFollow}**
