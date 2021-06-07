@@ -14,8 +14,6 @@ public interface PostRepository extends JpaRepository<PostData, Integer> {
     @Query("SELECT p FROM PostData p WHERE p.date BETWEEN ?1 AND ?2 AND p.user.userId = ?3")
     public List<PostData> getAllPostsOfSellersFollowedByUserIdOnLastTwoWeeks(LocalDate twoWeeksAgo, LocalDate now, Integer userId);
 
-    public Integer countPostByHasPromoAndUserUserId(Boolean hasPromo, Integer userId);
-
     public List<PostData> findByHasPromoAndUserUserId(Boolean hasPromo, Integer userId);
 
 }
