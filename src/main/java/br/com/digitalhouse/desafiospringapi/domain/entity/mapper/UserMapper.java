@@ -15,13 +15,14 @@ public interface UserMapper {
     static User fromUserData(UserData data) {
         var followed = assemblesFollowingOrFollowersListOf(data.getFollowed());
 
-        try {
+        if (data.getClass().getSimpleName().equals("CustomerData")) {
+            return new Customer(data.getUserId(), data.getName(), data.getTypeUser(), followed);
+        } else {
             var sellerData = (SellerData) data;
             var followers = assemblesFollowingOrFollowersListOf(sellerData.getFollowers());
             return new Seller(sellerData.getUserId(), sellerData.getName(), sellerData.getTypeUser(), followed, followers);
-        } catch (ClassCastException ex) {
-            return new Customer(data.getUserId(), data.getName(), data.getTypeUser(), followed);
         }
+
     }
 
     static List<User> assemblesFollowingOrFollowersListOf(List<UserData> listData) {

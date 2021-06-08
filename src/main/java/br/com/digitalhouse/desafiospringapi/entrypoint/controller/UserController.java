@@ -56,9 +56,9 @@ public class UserController {
     public ResponseEntity<UserResponse> getAllSellersThatAnUserFollow(@PathVariable Integer userId, @RequestParam(required = false) String order) {
         UserResponse response = null;
         if (order == null) {
-            response =  this.userUseCase.getAllSellersThatAnUserFollow(userId);
+            response = this.userUseCase.getAllSellersThatAnUserFollow(userId);
         } else {
-            response =  this.userUseCase.getAllSellersThatAnUserFollowOrderBy(userId, order);
+            response = this.userUseCase.getAllSellersThatAnUserFollowOrderBy(userId, order);
         }
         return ResponseEntity.ok().body(response);
     }

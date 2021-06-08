@@ -69,19 +69,12 @@ public class PostUseCaseImpl implements PostUseCase {
     @Override
     public UserPromoPostResponse getQuantityOfAllPromoPostsByUserId(Integer userId) {
         var posts = this.postGateway.getAllPromoPostsByUserId(userId);
-        this.addUserInPost(posts.get(0), userId);
         return UserPromoPostResponseMapper.fromListPostForQuantity(posts);
     }
 
     @Override
     public UserPromoPostResponse getAllPromoPostsByUserId(Integer userId) {
         var posts = this.postGateway.getAllPromoPostsByUserId(userId);
-        this.addUserInPost(posts.get(0), userId);
         return UserPromoPostResponseMapper.fromListPost(posts);
-    }
-
-    private void addUserInPost(Post post, Integer userId) {
-        var user = this.userGateway.findSellerByUserId(userId);
-        post.setUser(user);
     }
 }

@@ -5,8 +5,10 @@ import br.com.digitalhouse.desafiospringapi.dataprovider.repository.ProductRepos
 import br.com.digitalhouse.desafiospringapi.dataprovider.repository.UserRepository;
 import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.PostData;
 import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.ProductData;
+import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.SellerData;
 import br.com.digitalhouse.desafiospringapi.dataprovider.repository.entity.UserData;
 import br.com.digitalhouse.desafiospringapi.domain.entity.Post;
+import br.com.digitalhouse.desafiospringapi.domain.entity.User;
 import br.com.digitalhouse.desafiospringapi.domain.entity.enums.TypeUser;
 import br.com.digitalhouse.desafiospringapi.domain.entity.mapper.PostMapper;
 import br.com.digitalhouse.desafiospringapi.domain.gateways.PostGateway;
@@ -98,10 +100,22 @@ public class PostDataProvider implements PostGateway {
 
     @Override
     public List<Post> getAllPromoPostsByUserId(Integer userId) {
-        this.userDataProvider.findSellerByUserId(userId);
+        var user = this.userDataProvider.findSellerByUserId(userId);
         var posts = this.postRepository.findByHasPromoAndUserUserId(true, userId);
+
         if (posts == null || posts.isEmpty())
             throw new ObjectNotFoundException("This seller don't have any post");
+
+        this.addUserInPosts(user, posts);
         return PostMapper.fromListPostData(posts);
+    }
+
+    private void addUserInPosts(User user, List<PostData> posts) {
+        var userData = this.assembleUserDataOf(user);
+        posts.stream().forEach(p -> p.setUser(userData));
+    }
+
+    private UserData assembleUserDataOf(User user) {
+        return new SellerData(user.getUserId(), user.getName(), user.getTypeUser());
     }
 }

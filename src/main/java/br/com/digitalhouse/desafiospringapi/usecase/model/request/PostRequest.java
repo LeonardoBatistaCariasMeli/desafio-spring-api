@@ -1,7 +1,6 @@
 package br.com.digitalhouse.desafiospringapi.usecase.model.request;
 
 import br.com.digitalhouse.desafiospringapi.exceptions.DataIntegrityException;
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -32,9 +31,12 @@ public class PostRequest implements Serializable {
 
     private LocalDate convertToLocalDate(String date) {
         try {
-            return LocalDate.parse(date, DATE_PATTERN);
-        } catch (DataIntegrityException e) {
-            throw new DataIntegrityException("The date need the format dd-MM-yyyy");
+            var dateFormatted = LocalDate.parse(date, DATE_PATTERN);
+            if (dateFormatted.isAfter(LocalDate.now()))
+                throw new DataIntegrityException("The date needs to be less than today");
+            return dateFormatted;
+        } catch (Exception e) {
+            throw new DataIntegrityException("The date needs the format dd-MM-yyyy and to be less than today");
         }
 
     }
